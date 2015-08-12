@@ -1,0 +1,20 @@
+{
+  "name": "AHIMSA",
+  "version": "0.0.1",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.13.1",
+    "config": "^1.1.0",
+    "cors": "^2.7.1",
+    "express": "^3.2.6",
+    "method-override": "^2.3.3"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "keywords": []
+}
