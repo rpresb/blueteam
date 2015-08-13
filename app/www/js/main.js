@@ -3,6 +3,7 @@ var ua = navigator.userAgent;
 var logger = new Logger("main.js");
 var server = "http://10.24.2.145:3000";
 var lastId = 0;
+var vibrateStack = null;
 
 var device = {
 	Android: function() {
@@ -69,16 +70,23 @@ var showMessage = function(data) {
 					$("body").css("background-color", e.value);
 					break;
 				case "vibrate":
-					e.value.forEach(function(v) {
-						setTimeout(function() {
-							navigator.vibrate(v.time)
-						}, v.delay);
-					});
+					vibrateStack = e.value;
+					vibrate();
 					break;
 			}
 		});
 
 		$(".main-screen").html(JSON.stringify(data));
+	}
+}
+
+var vibrate = function() {
+	var v = vibrateStack.pop();
+
+	navigator.vibrate(v.time);
+
+	if (vibrateStack.length > 0) {
+		setTimeout('vibrate()', v.time + v.delay);
 	}
 }
 
