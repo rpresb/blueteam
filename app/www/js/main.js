@@ -82,7 +82,7 @@ var presets = [
 		configs: [
 			{
 				type: "book",
-				values: [ { name: "Os três porquinhos", icon: "book/book1_icon.png" } ]
+				values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Lobo Mal", icon: "lobo.png" } ]
 			},
 			{
 				type: "color",
@@ -299,17 +299,17 @@ var loadPreset = function(preset) {
 	preset.configs.forEach(function (c) {
 		switch (c.type) {
 			case "book":
-				html += "<div class='group'><span>Livro</span>";
+				html += "<div class='category'><h2>Livro</h2><ul>";
 
 				c.values.forEach(function (book) {
-					html += "<a class='event book-button' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'></a>";
+					html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'>" + book.name + "</a></li>";
 				});
 
-				html += "</div>";
+				html += "</ul></div>";
 
 				break;
 			case "color":
-				html += "<div class='group'><span>Cor</span>";
+				html += "<div class='category'><h2>Cor</h2>";
 
 				c.values.forEach(function (color) {
 					html += "<a class='event color-button' data-value='" + color + "' style='background-color:" + color + "'></a>";
@@ -319,7 +319,7 @@ var loadPreset = function(preset) {
 
 				break;
 			case "vibrate":
-				html += "<div class='group'><span>Vibrar</span>";
+				html += "<div class='category'><h2>Vibrar</h2>";
 
 				c.values.forEach(function (vibrate) {
 					html += "<a class='event vibrate-button' data-value='" + vibrate + "'>" + vibrate + "</a>";
@@ -329,7 +329,7 @@ var loadPreset = function(preset) {
 
 				break;
 			case "sound":
-				html += "<div class='group'><span>Som</span>";
+				html += "<div class='category'><h2>Som</h2>";
 
 				c.values.forEach(function (sound) {
 					html += "<a class='event sound-button' data-value='" + sound + "'>" + sound + "</a>";
@@ -396,7 +396,7 @@ var loadCards = function(cards) {
 			html += "<a class='event color-button' data-id=" + c.id + " style='background-color:" + c.color + "'></a>";
 		}
 		else {
-			html += "<a class='event color-button' data-id=" + c.id + " style='background: url(img/" + c.image + ")'></a>";
+			html += "<a class='event color-button' data-id=" + c.id + " style='background-image: url(img/" + c.image + ")'></a>";
 		}
 
 		html += "<div class='clear'></div></div>";
