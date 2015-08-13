@@ -4,14 +4,16 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Experience Box</title>
-	<!-- <link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'> -->
+
+	<title>Sentir</title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+
 	<!-- <link href='http://fonts.googleapis.com/css?family=Molle:400italic|Roboto:400,700' rel='stylesheet' type='text/css'> -->
 	<link href="css/main.css" rel="stylesheet" type="text/css" />
   <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
 </head>
 <body>
-
+	<a id="btnConfig"></a>
 
 	<div id="logo">
 		<h1>Sentir</h1>
@@ -31,7 +33,12 @@
 		Student
 	</div>
 
-
+	<div class="config">
+		Servidor: <input type="text" id="serverip" />
+		<br>
+		<input type="submit" id="saveConfig" value="Salvar" />
+		<input type="button" id="closeConfig" value="Fechar" />
+	</div>
 
 	<script src="cordova.js"></script>
 	<script src="js/jquery.min.js"></script>
