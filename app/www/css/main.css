@@ -6,6 +6,11 @@ body {
 	background-color: #CCCCCC;
 }
 
+.student-screen
+{
+	background: #59b4d3;
+}
+
 .teacher-button {
 	display: block;
 	float: left;
