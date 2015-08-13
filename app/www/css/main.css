@@ -1,3 +1,85 @@
+* {
+	line-height: 20px;
+}
+
 body {
-	background-color: #0000FF;
+	background-color: #CCCCCC;
+}
+
+.teacher-button {
+	display: block;
+	float: left;
+	margin-right: 5px;
+	background: url(../img/teacher.jpg) no-repeat;
+  	width: 200px;
+	height: 200px;
+	background-size: 100%;
+}
+
+.student-button {
+	display: block;
+	float: left;
+	margin-right: 5px;
+	background: url(../img/kid.png) no-repeat;
+  	width: 200px;
+	height: 200px;
+	background-size: 100%;
+}
+
+.color-button {
+	width: 50px;
+	height: 50px;
+	float: left;
+	margin: 5px;
+	border: solid 3px transparent;
+}
+
+.color-button.selected {
+	border: solid 3px #000000;
+}
+
+
+.group {
+	clear: both;
+	float: left;
+	margin-top: 20px;
+}
+
+.group span {
+	float: left;
+}
+
+.vibrate-button {
+	padding: 5px;
+	margin: 5px;
+	border: solid 3px transparent;
+	background-color: #FFFFFF;
+}
+
+.vibrate-button:hover {
+	background-color: #DDDDDD;
+}
+
+.vibrate-button:active {
+	background-color: #FFEEEE;
+}
+
+.vibrate-button.selected {
+	border: solid 3px #000000;
+	background-color: #FFEEEE;
+}
+
+.button {
+	clear: both;
+	float: left;
+	margin-top: 30px;
+	padding: 5px;
+	border: solid 3px #AAAAFF;
+	background-color: #DDDDFF;
+}
+
+div.message {
+	clear: both;
+	float: left;
+
 }

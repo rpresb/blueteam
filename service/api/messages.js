@@ -10,6 +10,7 @@ function Messages() {
 
   app.post('/send', function(req, res, next) {
 
+console.log(req.body);
     var e = req.body;
 
     global.currentEvent = e;
