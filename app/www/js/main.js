@@ -43,6 +43,12 @@ var vibrationTypes = [
 	}
 ];
 
+var soundCollection = [
+	{ type: "Vaca", file: "cow.wav" },
+	{ type: "Cachorro", file: "dog.wav" },
+	{ type: "Gato", file: "cat.wav" }
+];
+
 var presets = [
 	{
 		name: "default",
@@ -54,6 +60,10 @@ var presets = [
 			{
 				type: "vibrate",
 				values: ["Coração", "Longa"]
+			},
+			{
+				type: "sound",
+				values: ["Vaca", "Cachorro", "Gato"]
 			}
 		]
 
@@ -149,9 +159,23 @@ var showMessage = function(data) {
 					vibrateStack = e.value;
 					vibrate();
 					break;
+				case "sound":
+					playSound(e.value);
+
+					break;
 			}
 		});
 	}
+}
+
+var playSound = function(fileName) {
+	var audioElement = document.createElement('audio');
+    audioElement.setAttribute('src', 'sound/' + fileName);
+    audioElement.setAttribute('autoplay', 'autoplay');
+
+    audioElement.addEventListener("load", function() {
+        audioElement.play();
+    }, true);
 }
 
 var vibrate = function() {
@@ -194,7 +218,17 @@ var loadPreset = function(preset) {
 				html += "<div class='group'><span>Vibrar</span>";
 
 				c.values.forEach(function (vibrate) {
-					html += "<a class='event vibrate-button' data-value='" + vibrate + "' style='background-color:" + vibrate + "'>" + vibrate + "</a>";
+					html += "<a class='event vibrate-button' data-value='" + vibrate + "'>" + vibrate + "</a>";
+				});
+
+				html += "</div>";
+				
+				break;
+			case "sound":
+				html += "<div class='group'><span>Som</span>";
+
+				c.values.forEach(function (sound) {
+					html += "<a class='event sound-button' data-value='" + sound + "'>" + sound + "</a>";
 				});
 
 				html += "</div>";
@@ -218,6 +252,10 @@ var loadPreset = function(preset) {
 
 		if (obj.hasClass("vibrate-button")) {
 			$(".vibrate-button").removeClass("selected");
+		}
+
+		if (obj.hasClass("sound-button")) {
+			$(".sound-button").removeClass("selected");
 		}
 
 		if (!isSelected) {
@@ -312,6 +350,18 @@ var sendEvent = function(event) {
 			}
 		}
 
+		if (obj.hasClass("sound-button")) {
+			e.type = "sound";
+
+			var sound = soundCollection.filter(function (s) {
+				return s.type === obj.data("value");
+			});
+
+			if (sound.length > 0) {
+				e.value = sound[0].file;
+			}
+		}
+
 		events.push(e);
 	};
 
@@ -328,6 +378,9 @@ var sendEvent = function(event) {
 $(document).ready(function () {
 	logger.turnOffDebug();
 
+	$(".teacher-screen").hide();
+	$(".student-screen").hide();
+
 	$(".teacher-button").on('click', function() {
 		$(".chose-screen").hide();
 		$(".teacher-screen").show();
@@ -343,6 +396,25 @@ $(document).ready(function () {
 		startTimer();
 	});
 
-	$(".teacher-screen").hide();
-	$(".student-screen").hide();
+	$("#btnConfig").on('click', function() {
+
+		if ($(".config").is(":visible")) {
+			$(".config").hide();
+		} else { 
+			$("#serverip").val(server);
+			$(".config").show();
+		}
+
+	});
+
+	$("#closeConfig").on('click', function() {
+		$("#btnConfig").click();
+	});
+
+	$("#saveConfig").on('click', function() {
+		server = $("#serverip").val();
+
+		$("#btnConfig").click();
+	});
+
 });

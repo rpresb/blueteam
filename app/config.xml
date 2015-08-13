@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.walmart.senaas.lettuce" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Experience Box</name>
+<widget id="com.blueteam.sentir" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Sentir</name>
     <description>
-        Test
+        Sentir
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Blue Team
@@ -11,6 +11,10 @@
     
     <feature name="Vibration">
         <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification" />
     </feature>
 
     <plugin name="cordova-plugin-whitelist" version="1" />
