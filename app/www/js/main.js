@@ -40,6 +40,33 @@ var vibrationTypes = [
 		pattern: [
                 { "time": 2000, "delay": 0 }
 		]
+	},
+	{
+		type: "three",
+		pattern: [
+                { "time": 1000, "delay": 500 },
+                { "time": 1000, "delay": 500 },
+                { "time": 1000, "delay": 500 }
+		]
+	},
+	{
+		type: "hammer",
+		pattern: [
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 }
+		]
+	},
+	{
+		type: "continuous",
+		pattern: [
+                { "time": 5000, "delay": 0 }
+		]
 	}
 ];
 
@@ -74,96 +101,96 @@ var presets = [
 	}
 ];
 
-var bookCollection = { 
+var bookCollection = {
 	"Os três porquinhos": [
 	{
-		id: 1,
+		id: 0,
 		name: "Porquinho",
 		text: "Era uma vez, três porquinhos chamados: Cícero, Heitor e Prático.",
 		color: "",
 		image: "porquinho.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "three",
+		sound: ["oink1.m4a"]
 	},
 	{
-		id: 2,
+		id: 1,
 		name: "Casa",
 		text: "Um dia, eles resolveram deixar a casa de sua mãe e foram construir suas próprias casas na floresta.",
 		image: "casa.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer3.m4a"]
 	},
 	{
 		id: 2,
 		name: "Tijolo",
 		text: "O porquinho Prático disse que faria sua casa de tijolos.",
 		image: "tijolo.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer2.m4a"]
 	},
 	{
-		id: 2,
+		id: 3,
 		name: "Tijolo",
-		text: "O porquinho Heitor decidiu construir sua casa de madeira",
+		text: "O porquinho Heitor decidiu construir sua casa de madeira.",
 		image: "madeira.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer3.m4a"]
 	},
 	{
-		id: 2,
+		id: 4,
 		name: "Palha",
 		text: "E o porquinho Cícero decidiu construir sua casa de palha.",
 		image: "palha.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer1.m4a"]
 	},
 	{
-		id: 2,
+		id: 5,
 		name: "Lobo",
 		text: "Uma noite, veio um lobo, bateu na casa de palha e queria entrar.",
 		image: "lobo.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "continuous ",
+		sound: ["wolf1.m4a","knock1.m4a"]
 	},
 	{
-		id: 2,
+		id: 6,
 		name: "Vento",
 		text: "O porquinho apavorado não abriu a porta. Então o lobo estufou o peito, soprou forte e a casa de palha voou pelos ares.",
 		image: "vento.png",
 		vibrate: "Coração",
-		sound: "pig.wav"
+		sound: ["blowing1.m4a"]
 	},
 	{
-		id: 2,
+		id: 7,
 		name: "Porta Fechada",
-		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e gritou mas ninguém abriu a porta.",
+		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e bateu mas ninguém abriu a porta.",
 		image: "lobo.png",
 		vibrate: "Coração",
-		sound: "pig.wav"
+		sound: ["wolf2.m4a","knock2.m4a"]
 	},
 	{
-		id: 2,
+		id: 8,
 		name: "Porta Fechada",
 		text: "Então o lobo estufou o peito, soprou forte e a casa de madeira voou pelos ares.",
 		image: "vento.png",
 		vibrate: "Coração",
-		sound: "pig.wav"
+		sound: ["blowing2.m4a"]
 	},
 	{
-		id: 2,
+		id: 9,
 		name: "Porta Fechada",
 		text: "Os porquinhos correram para a casa de tijolos.",
-		image: "tijolo.png",
+		image: "porquinho.png",
 		vibrate: "Coração",
-		sound: "pig.wav"
+		sound: ["oink3.m4a"]
 	},
 	{
-		id: 2,
+		id: 10,
 		name: "Porta Fechada",
 		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.png",
 		vibrate: "Coração",
-		sound: "pig.wav"
+		sound: ["oink2.m4a"]
 	},
 
 ]};
@@ -299,7 +326,7 @@ var loadPreset = function(preset) {
 				});
 
 				html += "</div>";
-				
+
 				break;
 			case "sound":
 				html += "<div class='group'><span>Som</span>";
@@ -488,7 +515,7 @@ $(document).ready(function () {
 
 		if ($(".config").is(":visible")) {
 			$(".config").hide();
-		} else { 
+		} else {
 			$("#serverip").val(server);
 			$(".config").show();
 		}
