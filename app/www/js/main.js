@@ -74,7 +74,7 @@ var cards = [
 	{
 		id: 1,
 		name: "Porquinho",
-		text: "Era uma vez três porquinhos. Cícero, Heitor e Prático. Um dia decidiram construir três casas. Cada um ia fazer a sua, para esconder-se do lobo, que era muito mau e gostava de comer porquinhos. Cícero encontrou logo tudo que precisava:",
+		text: "Era uma vez, três porquinhos chamados: Cícero, Heitor e Prático.",
 		color: "",
 		image: "porquinho.png",
 		vibrate: "Coração",
@@ -82,13 +82,85 @@ var cards = [
 	},
 	{
 		id: 2,
-		name: "Teste",
-		text: "- Eis aqui uma porção de bambus, cola e barbante. Com isto, vou construir uma casa muito boa!",
-		color: "#FF00FF",
-		image: "",
+		name: "Casa",
+		text: "Um dia, eles resolveram deixar a casa de sua mãe e foram construir suas próprias casas na floresta.",
+		image: "casa.png",
 		vibrate: "Coração",
 		sound: "pig.wav"
-	}
+	},
+	{
+		id: 2,
+		name: "Tijolo",
+		text: "O porquinho Prático disse que faria sua casa de tijolos.",
+		image: "tijolo.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Tijolo",
+		text: "O porquinho Heitor decidiu construir sua casa de madeira",
+		image: "madeira.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Palha",
+		text: "E o porquinho Cícero decidiu construir sua casa de palha.",
+		image: "palha.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Lobo",
+		text: "Uma noite, veio um lobo, bateu na casa de palha e queria entrar.",
+		image: "lobo.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Vento",
+		text: "O porquinho apavorado não abriu a porta. Então o lobo estufou o peito, soprou forte e a casa de palha voou pelos ares.",
+		image: "vento.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Porta Fechada",
+		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e gritou mas ninguém abriu a porta.",
+		image: "lobo.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Porta Fechada",
+		text: "Então o lobo estufou o peito, soprou forte e a casa de madeira voou pelos ares.",
+		image: "vento.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Porta Fechada",
+		text: "Os porquinhos correram para a casa de tijolos.",
+		image: "tijolo.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Porta Fechada",
+		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
+		image: "casa.png",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+
 ];
 
 var doAjax = function(url, type, data, callback) {
