@@ -54,6 +54,10 @@ var presets = [
 		name: "default",
 		configs: [
 			{
+				type: "book",
+				values: [ { name: "Os três porquinhos", icon: "book/book1_icon.png" } ]
+			},
+			{
 				type: "color",
 				values: ["#FF0000", "#00FF00", "#0000FF", "#FFCC00"]
 			},
@@ -70,7 +74,8 @@ var presets = [
 	}
 ];
 
-var cards = [
+var bookCollection = { 
+	"Os três porquinhos": [
 	{
 		id: 1,
 		name: "Porquinho",
@@ -161,7 +166,7 @@ var cards = [
 		sound: "pig.wav"
 	},
 
-];
+]};
 
 var doAjax = function(url, type, data, callback) {
 	$.ajax({
@@ -266,6 +271,16 @@ var loadPreset = function(preset) {
 
 	preset.configs.forEach(function (c) {
 		switch (c.type) {
+			case "book":
+				html += "<div class='group'><span>Livro</span>";
+
+				c.values.forEach(function (book) {
+					html += "<a class='event book-button' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'></a>";
+				});
+
+				html += "</div>";
+
+				break;
 			case "color":
 				html += "<div class='group'><span>Cor</span>";
 
@@ -301,12 +316,17 @@ var loadPreset = function(preset) {
 
 	html += "<a class='button'>Enviar</a>";
 
-	$(".teacher-screen").html(html);
+	$(".control-panel").html(html);
 
 	$(".event").on('click', function(e) {
 		var obj = $(e.target);
 
 		var isSelected = obj.hasClass("selected");
+
+		if (obj.hasClass("book-button")) {
+			showBook(obj.data("value"));
+			return;
+		}
 
 		if (obj.hasClass("color-button")) {
 			$(".color-button").removeClass("selected");
@@ -332,6 +352,13 @@ var loadPreset = function(preset) {
 	});
 }
 
+var showBook = function(bookName) {
+	$(".control-panel").hide();
+	$(".teacher-screen").show();
+
+	loadCards(bookCollection[bookName]);
+}
+
 var loadCards = function(cards) {
 	var html = "";
 
@@ -352,7 +379,6 @@ var loadCards = function(cards) {
 	$(".teacher-screen").html(html);
 
 	$(".event").on('click', function(e) {
-
 		var id = $(e.target).data('id');
 		var event = cards[id];
 		sendEvent(event);
@@ -384,8 +410,8 @@ var loadCards = function(cards) {
 }
 
 var sendEvent = function(event) {
-	//var selectedObjs = $(".selected");
-	console.log(event);
+	var selectedObjs = $(".selected");
+	//console.log(event);
 
 	var payload = { id: (new Date()).getTime(), events: null };
 
@@ -445,10 +471,10 @@ $(document).ready(function () {
 
 	$(".teacher-button").on('click', function() {
 		$(".chose-screen").hide();
-		$(".teacher-screen").show();
+		$(".control-panel").show();
 
-		//loadPreset(presets[0]);
-		loadCards(cards);
+		loadPreset(presets[0]);
+		//loadCards(cards);
 	});
 
 	$(".student-button").on('click', function() {
