@@ -23,7 +23,7 @@ var device = {
 
 var vibrationTypes = [
 	{
-		type: "Coração", 
+		type: "Coração",
 		pattern: [
                 { "time": 300, "delay": 50 },
                 { "time": 200, "delay": 300 },
@@ -36,7 +36,7 @@ var vibrationTypes = [
 		]
 	},
 	{
-		type: "Longa", 
+		type: "Longa",
 		pattern: [
                 { "time": 2000, "delay": 0 }
 		]
@@ -60,6 +60,36 @@ var presets = [
 	}
 ];
 
+var cards = [
+
+	{
+		id: 0,
+		name: "",
+		text: "",
+		color: "",
+		image: "",
+		vibrate: "",
+		sound: ""
+	},
+	{
+		id: 1,
+		name: "Porquinho",
+		text: "Era uma vez três porquinhos. Cícero, Heitor e Prático. Um dia decidiram construir três casas. Cada um ia fazer a sua, para esconder-se do lobo, que era muito mau e gostava de comer porquinhos. Cícero encontrou logo tudo que precisava:",
+		color: "",
+		image: "pig.jpg",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	},
+	{
+		id: 2,
+		name: "Teste",
+		text: "- Eis aqui uma porção de bambus, cola e barbante. Com isto, vou construir uma casa muito boa!",
+		color: "#FF00FF",
+		image: "",
+		vibrate: "Coração",
+		sound: "pig.wav"
+	}
+];
 
 var doAjax = function(url, type, data, callback) {
 	$.ajax({
@@ -158,7 +188,7 @@ var loadPreset = function(preset) {
 				});
 
 				html += "</div>";
-				
+
 				break;
 			case "vibrate":
 				html += "<div class='group'><span>Vibrar</span>";
@@ -168,7 +198,7 @@ var loadPreset = function(preset) {
 				});
 
 				html += "</div>";
-				
+
 				break;
 		}
 	});
@@ -197,12 +227,65 @@ var loadPreset = function(preset) {
 	});
 
 	$(".button").on('click', function(e) {
+		console.log(e);
 		sendEvent();
 	});
 }
 
-var sendEvent = function() {
-	var selectedObjs = $(".selected");
+var loadCards = function(cards) {
+	var html = "";
+
+	cards.forEach(function (c) {
+
+		html += "<div class='group'><span>" + c.text + "</span>";
+		if (c.image == "") {
+			html += "<a class='event color-button' data-id=" + c.id + " style='background-color:" + c.color + "'></a>";
+		}
+		else {
+			html += "<a class='event color-button' data-id=" + c.id + " style='background: url(img/" + c.image + ")'></a>";
+		}
+
+		html += "</div>";
+
+	});
+
+	$(".teacher-screen").html(html);
+
+	$(".event").on('click', function(e) {
+
+		var id = $(e.target).data('id');
+		var event = cards[id];
+		sendEvent(event);
+	});
+
+	// $(".event").on('click', function(e) {
+	// 	var obj = $(e.target);
+
+	// 	var isSelected = obj.hasClass("selected");
+
+	// 	if (obj.hasClass("color-button")) {
+	// 		$(".color-button").removeClass("selected");
+	// 	}
+
+	// 	if (obj.hasClass("vibrate-button")) {
+	// 		$(".vibrate-button").removeClass("selected");
+	// 	}
+
+	// 	if (!isSelected) {
+	// 		obj.addClass("selected");
+	// 	}
+
+	// });
+
+	// $(".button").on('click', function(e) {
+	// 	sendEvent();
+	// });
+
+}
+
+var sendEvent = function(event) {
+	//var selectedObjs = $(".selected");
+	console.log(event);
 
 	var payload = { id: (new Date()).getTime(), events: null };
 
@@ -249,7 +332,8 @@ $(document).ready(function () {
 		$(".chose-screen").hide();
 		$(".teacher-screen").show();
 
-		loadPreset(presets[0]);
+		//loadPreset(presets[0]);
+		loadCards(cards);
 	});
 
 	$(".student-button").on('click', function() {
