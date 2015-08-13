@@ -61,22 +61,12 @@ var presets = [
 ];
 
 var cards = [
-
-	{
-		id: 0,
-		name: "",
-		text: "",
-		color: "",
-		image: "",
-		vibrate: "",
-		sound: ""
-	},
 	{
 		id: 1,
 		name: "Porquinho",
 		text: "Era uma vez três porquinhos. Cícero, Heitor e Prático. Um dia decidiram construir três casas. Cada um ia fazer a sua, para esconder-se do lobo, que era muito mau e gostava de comer porquinhos. Cícero encontrou logo tudo que precisava:",
 		color: "",
-		image: "pig.jpg",
+		image: "porquinho.png",
 		vibrate: "Coração",
 		sound: "pig.wav"
 	},
@@ -245,7 +235,7 @@ var loadCards = function(cards) {
 			html += "<a class='event color-button' data-id=" + c.id + " style='background: url(img/" + c.image + ")'></a>";
 		}
 
-		html += "</div>";
+		html += "<div class='clear'></div></div>";
 
 	});
 

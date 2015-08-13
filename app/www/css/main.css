@@ -5,10 +5,17 @@
 	margin: 0;
 }
 
+div.clear
+{
+	clear: both;
+}
+
 body {
 	background-color: #59b4d3;
 	font-family: "Roboto", arial, sans-serif;
 }
+
+
 #logo
 {
 	background: #b50f25;
@@ -30,9 +37,17 @@ body {
 	margin: 5%;
 	display: block;
 }
+
 .student-screen
 {
-	background: #59b4d3;
+	background:#222; 
+}
+
+.teacher-screen
+{
+	background:#d5d5d5;
+	height: 100%;
+	padding-top: 20px;
 }
 
 
@@ -62,12 +77,32 @@ body {
 
 
 .group {
-	clear: both;
-	margin-top: 20px;
+	border-radius: 5px;
+	padding:1.5rem;
+	box-shadow:0 1px 2px #aaa;
+	background:white;
+	margin:0 1rem 1rem;
+	border-radius:3px;
+	user-select:none;
+	animation:fly-in-from-left .5s 1s ease both;
+	transform-origin:top left;
 }
 
-.group span {
+.group p {
 	float: left;
+	width: 70%;
+	font-size: 16pt;
+	line-height: 25pt;
+}
+
+.group a{
+	display: block;
+	float: right;
+	width: 20%;
+	background-repeat: no-repeat !important;
+	background-position: center center !important;
+	background-size: contain !important;
+	height: 150px;
 }
 
 .vibrate-button {
