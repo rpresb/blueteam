@@ -1,8 +1,8 @@
 var userData = {};
 var ua = navigator.userAgent;
 var logger = new Logger("main.js");
-//var server = "http://10.24.2.145:3000";
-var server = "http://192.168.1.35:3000";
+var server = "http://10.24.2.145:3000";
+//var server = "http://192.168.1.35:3000";
 var lastId = 0;
 var vibrateStack = null;
 var timer = null;
@@ -21,6 +21,28 @@ var device = {
 	}
 };
 
+var vibrationTypes = [
+	{
+		type: "Coração", 
+		pattern: [
+                { "time": 300, "delay": 50 },
+                { "time": 200, "delay": 300 },
+                { "time": 300, "delay": 50 },
+                { "time": 200, "delay": 300 },
+                { "time": 300, "delay": 50 },
+                { "time": 200, "delay": 300 },
+                { "time": 300, "delay": 50 },
+                { "time": 200, "delay": 300 }
+		]
+	},
+	{
+		type: "Longa", 
+		pattern: [
+                { "time": 2000, "delay": 0 }
+		]
+	}
+];
+
 var presets = [
 	{
 		name: "default",
@@ -31,7 +53,7 @@ var presets = [
 			},
 			{
 				type: "vibrate",
-				values: ["Casa Caindo", "Triste", "Curto", "Longo"]
+				values: ["Coração", "Longa"]
 			}
 		]
 
@@ -197,6 +219,14 @@ var sendEvent = function() {
 
 		if (obj.hasClass("vibrate-button")) {
 			e.type = "vibrate";
+
+			var pattern = vibrationTypes.filter(function (p) {
+				return p.type === obj.data("value");
+			});
+
+			if (pattern.length > 0) {
+				e.value = pattern[0].pattern;
+			}
 		}
 
 		events.push(e);
