@@ -237,7 +237,7 @@ var loadCards = function(cards) {
 
 	cards.forEach(function (c) {
 
-		html += "<div class='group'><span>" + c.text + "</span>";
+		html += "<div class='group'><p>" + c.text + "</p>";
 		if (c.image == "") {
 			html += "<a class='event color-button' data-id=" + c.id + " style='background-color:" + c.color + "'></a>";
 		}

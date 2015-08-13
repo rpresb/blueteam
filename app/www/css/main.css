@@ -1,34 +1,51 @@
 * {
 	line-height: 20px;
+	border: none;
+	padding: 0;
+	margin: 0;
 }
 
 body {
-	background-color: #CCCCCC;
+	background-color: #59b4d3;
+	font-family: "Roboto", arial, sans-serif;
 }
-
+#logo
+{
+	background: #b50f25;
+	height: 50px;
+	padding: 5px;
+}
+#logo h1
+{
+	background: url(../img/small_logo.png) no-repeat center center;
+	text-indent: -9999px;
+	height: 60px;
+}
+.student-button,
+.teacher-button
+{
+	float: left;
+	width: 40%;
+	height: 300px;
+	margin: 5%;
+	display: block;
+}
 .student-screen
 {
 	background: #59b4d3;
 }
 
+
 .teacher-button {
-	display: block;
-	float: left;
-	margin-right: 5px;
-	background: url(../img/adult.jpg) no-repeat;
-  	width: 200px;
-	height: 200px;
+	background: url(../img/professor.png) no-repeat center center;
 	background-size: 100%;
+	background-size: contain;
 }
 
 .student-button {
-	display: block;
-	float: left;
-	margin-right: 5px;
-	background: url(../img/kid.png) no-repeat;
-  	width: 200px;
-	height: 200px;
+	background: url(../img/aluno.png) no-repeat center center;
 	background-size: 100%;
+	background-size: contain;
 }
 
 .color-button {
@@ -46,7 +63,6 @@ body {
 
 .group {
 	clear: both;
-	float: left;
 	margin-top: 20px;
 }
 
