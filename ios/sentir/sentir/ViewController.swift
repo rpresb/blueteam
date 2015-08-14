@@ -60,6 +60,8 @@ class ViewController: UIViewController {
                     image.image = imageFromString(events[i]["value"] as String)
 
                     break;
+                case "":
+                    break;
                 default:
                     break;
             }

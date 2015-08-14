@@ -2,8 +2,8 @@ var userData = {};
 var ua = navigator.userAgent;
 var logger = new Logger("main.js");
 
-var server = "http://localhost:3000";
-// var server = "http://10.24.2.145:3000";
+//var server = "http://localhost:3000";
+var server = "http://172.16.10.10:3000";
 //var server = "http://192.168.1.35:3000";
 
 var lastId = 0;
@@ -330,35 +330,56 @@ var bookCollection = {
 
 
 	var playSound = function() {
-		var audioElement = document.createElement('audio');
-		audioElement.setAttribute('src', 'aud/' + soundStack.shift());
-		audioElement.setAttribute('autoplay', 'autoplay');
 
-		audioElement.addEventListener("load", function() {
-			audioElement.play();
-		}, true);
+		var sound = soundStack.shift();
 
-		audioElement.addEventListener("ended", function(p) {
-			if (soundStack.length > 0) {
-				setTimeout('playSound()', 10);
-			} else {
-				pending.shift();
-			}
-		});
+		if (sound) {
+			var audioElement = document.createElement('audio');
+			audioElement.setAttribute('src', 'aud/' + sound);
+			audioElement.setAttribute('autoplay', 'autoplay');
+
+			audioElement.addEventListener("load", function() {
+				console.log("load", audioElement);
+				audioElement.play();
+			}, true);
+
+			audioElement.addEventListener("ended", function(p) {
+				console.log("ended", audioElement);
+
+				if (soundStack.length > 0) {
+					setTimeout('playSound()', 10);
+				} else {
+					pending.shift();
+				}
+			});
+		} else {
+			pending.shift();
+		}
 
 	}
+
+	var checkFinished = function() {
+		if (pending.length === 0) {
+			$("body").css("overflow", "auto");
+			$("#preview").remove();
+		} else {
+			setTimeout('checkFinished()', 500);
+		}
+	};
 
 	var vibrate = function() {
 		var v = vibrateStack.shift();
 
-		navigator.vibrate(v.time);
+		try {
+			navigator.vibrate(v.time);
 
-
-		if (vibrateStack.length > 0) {
-			setTimeout('vibrate()', v.time + v.delay);
-		} else {
+			if (vibrateStack.length > 0) {
+				setTimeout('vibrate()', v.time + v.delay);
+			} else {
+				pending.shift();
+			}
+		} catch (e) {
 			pending.shift();
-
 		}
 	};
 	var startTimer = function() {
@@ -378,8 +399,6 @@ var bookCollection = {
 		window.clearInterval(timer);
 		timer = null;
 	};
-
-
 
 	var loadPreset = function(preset) {
 		var html = "";
@@ -561,13 +580,11 @@ var bookCollection = {
 			});
 
 			if (pattern.length > 0) {
-				vibrate.value = pattern[0].pattern;
+				vibrate.value = pattern[0].pattern.slice();
 			}
 
 			events.push(vibrate);
 		}
-
-
 
 		if (card.image !== "") {
 			var image = { type: "image", value: card.image };
@@ -576,12 +593,22 @@ var bookCollection = {
 		}
 
 		if (card.sound !== "") {
-			var sound = { type: "sound", value: card.sound };
+			var sound = { type: "sound", value: card.sound.slice() };
 
 			events.push(sound);
 		}
 		
 		doEventPost(events);
+
+		var preview = $(".student-screen").clone();
+		preview.attr("id", "preview").css("top", $("body").scrollTop() + "px");
+		$("body").css("overflow", "hidden").append(preview);
+
+		preview.fadeIn();
+
+		showMessage({id: (new Date()).getTime(), events: events });
+
+		checkFinished();
 	};
 
 var doEventPost = function(events) {
