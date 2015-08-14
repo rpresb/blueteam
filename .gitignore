@@ -1,3 +1,5 @@
 .DS_Store
 platforms
 plugins
+service/node_modules/
+service/npm-debug.log
