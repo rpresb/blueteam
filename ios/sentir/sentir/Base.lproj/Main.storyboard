@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="sentir" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="small_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="fkH-SF-FOS">
+                                <rect key="frame" x="-10" y="-2" width="620" height="103"/>
+                                <color key="backgroundColor" red="0.95294123890000004" green="0.1215686351" blue="0.231372565" alpha="1" colorSpace="deviceRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="103" id="YLp-ba-i67"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="porquinho.png" translatesAutoresizingMaskIntoConstraints="NO" id="uR5-SX-cjd">
+                                <rect key="frame" x="0.0" y="109" width="600" height="491"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.064816633618653821" green="0.65665504682719888" blue="0.81772161989795922" alpha="0.76000000000000001" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="fkH-SF-FOS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-22" id="0iK-Jg-Kil"/>
+                            <constraint firstItem="fkH-SF-FOS" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="2H0-gv-j7I"/>
+                            <constraint firstItem="uR5-SX-cjd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="5t8-no-JNR"/>
+                            <constraint firstItem="fkH-SF-FOS" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="AAa-mg-3xJ"/>
+                            <constraint firstItem="uR5-SX-cjd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="EKs-mq-xWr"/>
+                            <constraint firstItem="fkH-SF-FOS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-22" id="G0Z-IL-y1Z"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fkH-SF-FOS" secondAttribute="trailing" constant="-26" id="MPL-aI-kg3"/>
+                            <constraint firstItem="uR5-SX-cjd" firstAttribute="top" secondItem="fkH-SF-FOS" secondAttribute="bottom" constant="2" id="Mw8-6g-eTR"/>
+                            <constraint firstItem="fkH-SF-FOS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-26" id="WAn-Ih-xdF"/>
+                            <constraint firstItem="uR5-SX-cjd" firstAttribute="top" secondItem="fkH-SF-FOS" secondAttribute="bottom" constant="8" id="aBR-aw-Ad8"/>
+                            <constraint firstAttribute="centerX" secondItem="fkH-SF-FOS" secondAttribute="centerX" id="amU-l7-Vtt"/>
+                            <constraint firstItem="uR5-SX-cjd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="eoZ-cp-Bt4"/>
+                            <constraint firstItem="uR5-SX-cjd" firstAttribute="top" secondItem="fkH-SF-FOS" secondAttribute="bottom" constant="-2" id="fu2-dQ-ky1"/>
+                            <constraint firstItem="fkH-SF-FOS" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" constant="-2" id="gxF-G7-2oP"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uR5-SX-cjd" secondAttribute="bottom" id="lpM-CQ-FvE"/>
+                            <constraint firstItem="uR5-SX-cjd" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="1:1" id="uza-st-ge5"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="uR5-SX-cjd" secondAttribute="trailing" id="xIK-Uv-OGI"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="uR5-SX-cjd" secondAttribute="bottom" id="xiY-Bg-w6R"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2H0-gv-j7I"/>
+                                <exclude reference="G0Z-IL-y1Z"/>
+                                <exclude reference="MPL-aI-kg3"/>
+                                <exclude reference="WAn-Ih-xdF"/>
+                                <exclude reference="gxF-G7-2oP"/>
+                                <exclude reference="5t8-no-JNR"/>
+                                <exclude reference="Mw8-6g-eTR"/>
+                                <exclude reference="eoZ-cp-Bt4"/>
+                                <exclude reference="fu2-dQ-ky1"/>
+                                <exclude reference="uza-st-ge5"/>
+                                <exclude reference="xIK-Uv-OGI"/>
+                                <exclude reference="lpM-CQ-FvE"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <connections>
+                        <outlet property="image" destination="uR5-SX-cjd" id="BEW-La-aXn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="porquinho.png" width="300" height="350"/>
+        <image name="small_logo.png" width="130" height="55"/>
+    </resources>
+</document>
