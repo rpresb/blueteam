@@ -45,6 +45,12 @@ body {
 	padding:10px;
 }
 
+#btn-voltar
+{
+	/*display: none;*/
+	float: left;
+}
+
 .student-button,
 .teacher-button
 {
@@ -58,6 +64,9 @@ body {
 .student-screen
 {
 	padding: 5%;
+
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
 }
 
 .student-screen > .student-img

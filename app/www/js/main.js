@@ -10,96 +10,96 @@ var timer = null;
 
 var device = {
 	Android: function() {
-	    return /Android/i.test(ua);
+		return /Android/i.test(ua);
 	}, BlackBerry: function() {
-	    return /BlackBerry/i.test(ua);
+		return /BlackBerry/i.test(ua);
 	}, iOS: function() {
-	    return /iPhone|iPad|iPod/i.test(ua);
+		return /iPhone|iPad|iPod/i.test(ua);
 	}, Windows: function() {
-	    return /IEMobile/i.test(ua);
+		return /IEMobile/i.test(ua);
 	}, isAndroid: function() {
-	    return (this.Android() && (!this.BlackBerry() && !this.iOS() && !this.Windows()));
+		return (this.Android() && (!this.BlackBerry() && !this.iOS() && !this.Windows()));
 	}
 };
 
 var vibrationTypes = [
-	{
-		type: "Coração",
-		pattern: [
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 },
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 },
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 },
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 }
-		]
-	},
-	{
-		type: "Longa",
-		pattern: [
-                { "time": 2000, "delay": 0 }
-		]
-	},
-	{
-		type: "three",
-		pattern: [
-                { "time": 1000, "delay": 500 },
-                { "time": 1000, "delay": 500 },
-                { "time": 1000, "delay": 500 }
-		]
-	},
-	{
-		type: "hammer",
-		pattern: [
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 }
-		]
-	},
-	{
-		type: "continuous",
-		pattern: [
-                { "time": 5000, "delay": 0 }
-		]
-	}
+{
+	type: "Coração",
+	pattern: [
+	{ "time": 300, "delay": 50 },
+	{ "time": 200, "delay": 300 },
+	{ "time": 300, "delay": 50 },
+	{ "time": 200, "delay": 300 },
+	{ "time": 300, "delay": 50 },
+	{ "time": 200, "delay": 300 },
+	{ "time": 300, "delay": 50 },
+	{ "time": 200, "delay": 300 }
+	]
+},
+{
+	type: "Longa",
+	pattern: [
+	{ "time": 2000, "delay": 0 }
+	]
+},
+{
+	type: "three",
+	pattern: [
+	{ "time": 1000, "delay": 500 },
+	{ "time": 1000, "delay": 500 },
+	{ "time": 1000, "delay": 500 }
+	]
+},
+{
+	type: "hammer",
+	pattern: [
+	{ "time": 200, "delay": 200 },
+	{ "time": 200, "delay": 200 },
+	{ "time": 200, "delay": 200 },
+	{ "time": 200, "delay": 200 },
+	{ "time": 200, "delay": 200 },
+	{ "time": 200, "delay": 200 },
+	{ "time": 200, "delay": 200 },
+	{ "time": 200, "delay": 200 }
+	]
+},
+{
+	type: "continuous",
+	pattern: [
+	{ "time": 5000, "delay": 0 }
+	]
+}
 ];
 
 var soundCollection = [
-	{ type: "Vaca", file: "cow.wav" },
-	{ type: "Cachorro", file: "dog.wav" },
-	{ type: "Gato", file: "cat.wav" }
+{ type: "Vaca", file: "cow.wav" },
+{ type: "Cachorro", file: "dog.wav" },
+{ type: "Gato", file: "cat.wav" }
 ];
 
 var presets = [
+{
+	name: "default",
+	configs: [
 	{
-		name: "default",
-		configs: [
-			{
-				type: "book",
-				values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Lobo Mal", icon: "lobo.png" } ]
-			},
-			{
-				type: "color",
-				values: ["#FF0000", "#00FF00", "#0000FF", "#FFCC00"]
-			},
-			{
-				type: "vibrate",
-				values: ["Coração", "Longa"]
-			},
-			{
-				type: "sound",
-				values: ["Vaca", "Cachorro", "Gato"]
-			}
-		]
-
+		type: "book",
+		values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Lobo Mal", icon: "lobo.png" } ]
+	},
+	{
+		type: "color",
+		values: ["#FF0000", "#00FF00", "#0000FF", "#FFCC00"]
+	},
+	{
+		type: "vibrate",
+		values: ["Coração", "Longa"]
+	},
+	{
+		type: "sound",
+		values: ["Vaca", "Cachorro", "Gato"]
 	}
+	]
+
+}
 ];
 
 var bookCollection = {
@@ -194,117 +194,117 @@ var bookCollection = {
 		sound: ["oink2.m4a"]
 	},
 
-]};
+	]};
 
-var doAjax = function(url, type, data, callback) {
-	$.ajax({
-		beforeSend: function(xhrObj) {
-		    xhrObj.setRequestHeader("Content-Type","application/json");
-		    xhrObj.setRequestHeader("Accept","application/json");
-    	},
-		url: url,
-		type: type,
-		data: data,
-		dataType: 'json',
-		timeout: 3000
-	})
-	.done(callback)
-	.complete(handleErrosOnComplete);
-};
+	var doAjax = function(url, type, data, callback) {
+		$.ajax({
+			beforeSend: function(xhrObj) {
+				xhrObj.setRequestHeader("Content-Type","application/json");
+				xhrObj.setRequestHeader("Accept","application/json");
+			},
+			url: url,
+			type: type,
+			data: data,
+			dataType: 'json',
+			timeout: 3000
+		})
+		.done(callback)
+		.complete(handleErrosOnComplete);
+	};
 
-var handleErrosOnComplete = function(data, status) {
-	switch(data.status) {
-		case 0:
+	var handleErrosOnComplete = function(data, status) {
+		switch(data.status) {
+			case 0:
 			if(data.statusText === "timeout") {
 				logger.error("There are some problems to application server responding!");
 			} else {
 				logger.error("Application cannot respond.");
 			}
-		break;
+			break;
 
-		case 500:
-		case 503:
+			case 500:
+			case 503:
 			logger.error("Internal Server Error");
-		break;
+			break;
 
-		case 404:
+			case 404:
 			logger.error("User not found!");
-		break;
-	}
-};
+			break;
+		}
+	};
 
-Storage.prototype.setObj = function(key, obj) {
-	return this.setItem(key, JSON.stringify(obj));
-};
+	Storage.prototype.setObj = function(key, obj) {
+		return this.setItem(key, JSON.stringify(obj));
+	};
 
-Storage.prototype.getObj = function(key) {
-	return JSON.parse(this.getItem(key));
-};
+	Storage.prototype.getObj = function(key) {
+		return JSON.parse(this.getItem(key));
+	};
 
-var showMessage = function(data) {
-	if (lastId != data.id) {
-		lastId = data.id;
+	var showMessage = function(data) {
+		if (lastId != data.id) {
+			lastId = data.id;
 
-		data.events.forEach(function (e) {
-			switch (e.type) {
-				case "image":
+			data.events.forEach(function (e) {
+				switch (e.type) {
+					case "image":
 					$(".student-screen > .student-img").css("background-image", "url('img/" + e.value + "')");
 					//$(".student-screen").css("background-color", "transparent");
 					break;
-				case "color":
+					case "color":
 					$(".student-screen").html("");
 					$(".student-screen").css("background-color", e.value);
 					break;
-				case "vibrate":
+					case "vibrate":
 					vibrateStack = e.value;
 					vibrate();
 					break;
-				case "sound":
+					case "sound":
 					playSound(e.value);
 
 					break;
-			}
-		});
+				}
+			});
+		}
 	}
-}
 
-var playSound = function(fileName) {
-	var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'aud/' + fileName);
-    audioElement.setAttribute('autoplay', 'autoplay');
+	var playSound = function(fileName) {
+		var audioElement = document.createElement('audio');
+		audioElement.setAttribute('src', 'aud/' + fileName);
+		audioElement.setAttribute('autoplay', 'autoplay');
 
-    audioElement.addEventListener("load", function() {
-        audioElement.play();
-    }, true);
-}
-
-var vibrate = function() {
-	var v = vibrateStack.pop();
-
-	navigator.vibrate(v.time);
-
-	if (vibrateStack.length > 0) {
-		setTimeout('vibrate()', v.time + v.delay);
+		audioElement.addEventListener("load", function() {
+			audioElement.play();
+		}, true);
 	}
-}
 
-var startTimer = function() {
-	timer = window.setInterval(function() {
-		doAjax(server + "/api/messages/receive", "GET", null, showMessage);
-	}, 1000);
-}
+	var vibrate = function() {
+		var v = vibrateStack.pop();
 
-var stopTimer = function() {
-	window.clearInterval(timer);
-	timer = null;
-}
+		navigator.vibrate(v.time);
 
-var loadPreset = function(preset) {
-	var html = "";
+		if (vibrateStack.length > 0) {
+			setTimeout('vibrate()', v.time + v.delay);
+		}
+	}
 
-	preset.configs.forEach(function (c) {
-		switch (c.type) {
-			case "book":
+	var startTimer = function() {
+		timer = window.setInterval(function() {
+			doAjax(server + "/api/messages/receive", "GET", null, showMessage);
+		}, 1000);
+	}
+
+	var stopTimer = function() {
+		window.clearInterval(timer);
+		timer = null;
+	}
+
+	var loadPreset = function(preset) {
+		var html = "";
+
+		preset.configs.forEach(function (c) {
+			switch (c.type) {
+				case "book":
 				html += "<div class='category'><h1>Livros</h1><ul>";
 
 				c.values.forEach(function (book) {
@@ -314,7 +314,7 @@ var loadPreset = function(preset) {
 				html += "</ul></div>";
 
 				break;
-			case "color":
+				case "color":
 				html += "<div class='category'><h1>Crie a sua</h1><h2>Cor</h2>";
 
 				c.values.forEach(function (color) {
@@ -324,7 +324,7 @@ var loadPreset = function(preset) {
 				html += "</div>";
 
 				break;
-			case "vibrate":
+				case "vibrate":
 				html += "<div class='category'><h2>Vibrar</h2>";
 
 				c.values.forEach(function (vibrate) {
@@ -334,7 +334,7 @@ var loadPreset = function(preset) {
 				html += "</div>";
 
 				break;
-			case "sound":
+				case "sound":
 				html += "<div class='category'><h2>Som</h2>";
 
 				c.values.forEach(function (sound) {
@@ -344,45 +344,45 @@ var loadPreset = function(preset) {
 				html += "</div>";
 
 				break;
-		}
-	});
+			}
+		});
 
-	html += "<div class='category'><a class='button'>Enviar</a></category>";
+html += "<div class='category'><a class='button'>Enviar</a></category>";
 
-	$(".control-panel").html(html);
+$(".control-panel").html(html);
 
-	$(".event").on('click', function(e) {
-		var obj = $(e.target);
+$(".event").on('click', function(e) {
+	var obj = $(e.target);
 
-		var isSelected = obj.hasClass("selected");
+	var isSelected = obj.hasClass("selected");
 
-		if (obj.hasClass("book-button")) {
-			showBook(obj.data("value"));
-			return;
-		}
+	if (obj.hasClass("book-button")) {
+		showBook(obj.data("value"));
+		return;
+	}
 
-		if (obj.hasClass("color-button")) {
-			$(".color-button").removeClass("selected");
-		}
+	if (obj.hasClass("color-button")) {
+		$(".color-button").removeClass("selected");
+	}
 
-		if (obj.hasClass("vibrate-button")) {
-			$(".vibrate-button").removeClass("selected");
-		}
+	if (obj.hasClass("vibrate-button")) {
+		$(".vibrate-button").removeClass("selected");
+	}
 
-		if (obj.hasClass("sound-button")) {
-			$(".sound-button").removeClass("selected");
-		}
+	if (obj.hasClass("sound-button")) {
+		$(".sound-button").removeClass("selected");
+	}
 
-		if (!isSelected) {
-			obj.addClass("selected");
-		}
+	if (!isSelected) {
+		obj.addClass("selected");
+	}
 
-	});
+});
 
-	$(".button").on('click', function(e) {
-		console.log(e);
-		sendEvent();
-	});
+$(".button").on('click', function(e) {
+	console.log(e);
+	sendEvent();
+});
 }
 
 var showBook = function(bookName) {
@@ -530,26 +530,60 @@ var doEventPost = function(events) {
 	});
 };
 
+function hideConfig()
+{
+	$("#btnConfig").hide();
+}
+
+function goHome()
+{
+	$(".control-panel, .teacher-screen, .student-screen").hide();
+	$(".chose-screen").show();
+	$("#btn-voltar").hide();
+}
+
+function goTeacherScreen () {
+	hideConfig();
+	$(".chose-screen").hide();
+	$(".control-panel").show();
+
+	loadPreset(presets[0]);
+	$("#btn-voltar").show();
+		//loadCards(cards);
+	;
+}
+
+function goStudentScreen()
+{
+	$('.student-screen').height($(window).height()-140);
+	
+	hideConfig();
+	$(".chose-screen").hide();
+	$(".student-screen").show();
+	$("#btn-voltar").show();
+	
+
+	startTimer();
+}
+
+
 $(document).ready(function () {
+
+	$("#btn-voltar").click(function()
+	{
+		goHome();
+	})
 	logger.turnOffDebug();
 
 	$(".teacher-screen").hide();
 	$(".student-screen").hide();
 
 	$(".teacher-button").on('click', function() {
-		$(".chose-screen").hide();
-		$(".control-panel").show();
-
-		loadPreset(presets[0]);
-		//loadCards(cards);
+		goTeacherScreen();
 	});
 
 	$(".student-button").on('click', function() {
-		$(".chose-screen").hide();
-		$(".student-screen").show();
-		$('.student-screen').height($(window).height()-140);
-
-		startTimer();
+		goStudentScreen();
 	});
 
 	$("#btnConfig").on('click', function() {
