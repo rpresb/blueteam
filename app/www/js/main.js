@@ -1,12 +1,16 @@
 var userData = {};
 var ua = navigator.userAgent;
 var logger = new Logger("main.js");
+
 var server = "http://localhost:3000";
 // var server = "http://10.24.2.145:3000";
 //var server = "http://192.168.1.35:3000";
+
 var lastId = 0;
 var vibrateStack = null;
 var timer = null;
+var soundStack = null;
+var pending = [];
 
 var device = {
 	Android: function() {
@@ -82,6 +86,7 @@ var presets = [
 	name: "default",
 	configs: [
 	{
+
 		type: "book",
 		values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Lobo Mal", icon: "lobo.png" } ]
 	},
@@ -96,6 +101,52 @@ var presets = [
 	{
 		type: "sound",
 		values: ["Vaca", "Cachorro", "Gato"]
+	},{
+
+		type: "Coração",
+		pattern: [
+		{ "time": 300, "delay": 50 },
+		{ "time": 200, "delay": 300 },
+		{ "time": 300, "delay": 50 },
+		{ "time": 200, "delay": 300 },
+		{ "time": 300, "delay": 50 },
+		{ "time": 200, "delay": 300 },
+		{ "time": 300, "delay": 50 },
+		{ "time": 200, "delay": 300 }
+		]
+	},
+	{
+		type: "Longa",
+		pattern: [
+		{ "time": 2000, "delay": 0 }
+		]
+	},
+	{
+		type: "three",
+		pattern: [
+		{ "time": 1000, "delay": 500 },
+		{ "time": 1000, "delay": 500 },
+		{ "time": 1000, "delay": 500 }
+		]
+	},
+	{
+		type: "hammer",
+		pattern: [
+		{ "time": 200, "delay": 200 },
+		{ "time": 200, "delay": 200 },
+		{ "time": 200, "delay": 200 },
+		{ "time": 200, "delay": 200 },
+		{ "time": 200, "delay": 200 },
+		{ "time": 200, "delay": 200 },
+		{ "time": 200, "delay": 200 },
+		{ "time": 200, "delay": 200 }
+		]
+	},
+	{
+		type: "continuous",
+		pattern: [
+		{ "time": 5000, "delay": 0 }
+		]
 	}
 	]
 
@@ -111,7 +162,7 @@ var bookCollection = {
 		color: "",
 		image: "porquinho.svg",
 		vibrate: "three",
-		sound: ["oink1.m4a"]
+		sound: ["happystarting.m4a","oink1.m4a"]
 	},
 	{
 		id: 1,
@@ -188,11 +239,11 @@ var bookCollection = {
 	{
 		id: 10,
 		name: "The end",
-		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
+		text: "Como o porquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.svg",
 		vibrate: "three",
-		sound: ["oink2.m4a"]
-	},
+		sound: ["happyending.m4a"]
+	}
 
 	]};
 
@@ -245,9 +296,14 @@ var bookCollection = {
 		if (lastId != data.id) {
 			lastId = data.id;
 
+			// $(".student-screen").html("");
+			
+			pending = [];
+
 			data.events.forEach(function (e) {
 				switch (e.type) {
 					case "image":
+					console.log($(".student-screen > .student-img"));
 					$(".student-screen > .student-img").css("background-image", "url('img/" + e.value + "')");
 					//$(".student-screen").css("background-color", "transparent");
 					break;
@@ -255,12 +311,17 @@ var bookCollection = {
 					$(".student-screen").html("");
 					$(".student-screen").css("background-color", e.value);
 					break;
+
 					case "vibrate":
+					pending.push("vibrate");
 					vibrateStack = e.value;
-					vibrate();
+					setTimeout('vibrate()', 10);
 					break;
+
 					case "sound":
-					playSound(e.value);
+					pending.push("sound");
+					soundStack = e.value;
+					setTimeout('playSound()', 10);
 
 					break;
 				}
@@ -268,84 +329,103 @@ var bookCollection = {
 		}
 	}
 
-	var playSound = function(fileName) {
+
+	var playSound = function() {
 		var audioElement = document.createElement('audio');
-		audioElement.setAttribute('src', 'aud/' + fileName);
+		audioElement.setAttribute('src', 'aud/' + soundStack.shift());
 		audioElement.setAttribute('autoplay', 'autoplay');
 
 		audioElement.addEventListener("load", function() {
 			audioElement.play();
 		}, true);
+
+		audioElement.addEventListener("ended", function(p) {
+			if (soundStack.length > 0) {
+				setTimeout('playSound()', 10);
+			} else {
+				pending.shift();
+			}
+		});
+
 	}
 
 	var vibrate = function() {
-		var v = vibrateStack.pop();
+		var v = vibrateStack.shift();
 
 		navigator.vibrate(v.time);
 
+
 		if (vibrateStack.length > 0) {
 			setTimeout('vibrate()', v.time + v.delay);
+		} else {
+			pending.shift();
+
+		}};
+
+
+		var startTimer = function() {
+			timer = window.setInterval(function() {
+				receiveMessage();
+			}, 1000);
 		}
-	}
 
-	var startTimer = function() {
-		timer = window.setInterval(function() {
+		var receiveMessage = function() {
 			doAjax(server + "/api/messages/receive", "GET", null, showMessage);
-		}, 1000);
-	}
+		};
 
-	var stopTimer = function() {
-		window.clearInterval(timer);
-		timer = null;
-	}
+		var stopTimer = function() {
+			window.clearInterval(timer);
+			timer = null;
+		}
 
-	var loadPreset = function(preset) {
-		var html = "";
 
-		preset.configs.forEach(function (c) {
-			switch (c.type) {
-				case "book":
-				html += "<div class='category'><h1>Livros</h1><ul>";
+		var loadPreset = function(preset) {
+			var html = "";
 
-				c.values.forEach(function (book) {
-					html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'>" + book.name + "</a></li>";
-				});
+			preset.configs.forEach(function (c) {
+				switch (c.type) {
+					case "book":
+					html += "<div class='category'><h1>Livros</h1><ul>";
 
-				html += "</ul></div>";
+					c.values.forEach(function (book) {
+						html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'>" + book.name + "</a></li>";
+					});
 
-				break;
-				case "color":
-				html += "<div class='category'><h1>Crie a sua</h1><h2>Cor</h2>";
+					html += "</ul></div>";
 
-				c.values.forEach(function (color) {
-					html += "<a class='event color-button' data-value='" + color + "' style='background-color:" + color + "'></a>";
-				});
+					break;
+					case "color":
+					html += "<div class='category'><h1>Crie a sua</h1><h2>Cor</h2>";
 
-				html += "</div>";
+					c.values.forEach(function (color) {
+						html += "<a class='event color-button' data-value='" + color + "' style='background-color:" + color + "'></a>";
+					});
 
-				break;
-				case "vibrate":
-				html += "<div class='category'><h2>Vibrar</h2>";
+					html += "</div>";
 
-				c.values.forEach(function (vibrate) {
-					html += "<a class='event vibrate-button' data-value='" + vibrate + "'>" + vibrate + "</a>";
-				});
+					break;
+					case "vibrate":
+					html += "<div class='category'><h2>Vibrar</h2>";
 
-				html += "</div>";
+					c.values.forEach(function (vibrate) {
+						html += "<a class='event vibrate-button' data-value='" + vibrate + "'>" + vibrate + "</a>";
+					});
 
-				break;
-				case "sound":
-				html += "<div class='category'><h2>Som</h2>";
+					html += "</div>";
 
-				c.values.forEach(function (sound) {
-					html += "<a class='event sound-button' data-value='" + sound + "'>" + sound + "</a>";
-				});
+					break;
+					case "sound":
+					html += "<div class='category'><h2>Som</h2>";
 
-				html += "</div>";
+					c.values.forEach(function (sound) {
+						html += "<a class='event sound-button' data-value='" + sound + "'>" + sound + "</a>";
+					});
 
-				break;
-			}
-		});
+					html += "</div>";
+
+					break;
+				}
+			});
 
 html += "<div class='category'><a class='button'>Enviar</a></category>";
 
@@ -380,7 +460,6 @@ $(".event").on('click', function(e) {
 });
 
 $(".button").on('click', function(e) {
-	console.log(e);
 	sendEvent();
 });
 }
@@ -390,6 +469,8 @@ var showBook = function(bookName) {
 	$(".teacher-screen").show();
 
 	loadCards(bookName);
+
+	doEventPost([]);
 }
 
 var loadCards = function(bookName) {
@@ -399,7 +480,7 @@ var loadCards = function(bookName) {
 	cards.forEach(function (c) {
 
 		html += "<div class='group'><p>" + c.text + "</p>";
-		if (c.image == "") {
+		if (c.image === "") {
 			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-color:" + c.color + "'></a>";
 		}
 		else {
@@ -417,35 +498,10 @@ var loadCards = function(bookName) {
 		var book = $(e.target).data('book');
 		sendCardEvents(book, id);
 	});
-
-	// $(".event").on('click', function(e) {
-	// 	var obj = $(e.target);
-
-	// 	var isSelected = obj.hasClass("selected");
-
-	// 	if (obj.hasClass("color-button")) {
-	// 		$(".color-button").removeClass("selected");
-	// 	}
-
-	// 	if (obj.hasClass("vibrate-button")) {
-	// 		$(".vibrate-button").removeClass("selected");
-	// 	}
-
-	// 	if (!isSelected) {
-	// 		obj.addClass("selected");
-	// 	}
-
-	// });
-
-	// $(".button").on('click', function(e) {
-	// 	sendEvent();
-	// });
-
 }
 
 var sendEvent = function() {
 	var selectedObjs = $(".selected");
-	//console.log(event);
 
 	var events = [];
 
@@ -478,7 +534,7 @@ var sendEvent = function() {
 			});
 
 			if (sound.length > 0) {
-				e.value = sound[0].file;
+				e.value = [ sound[0].file ];
 			}
 		}
 
@@ -493,7 +549,6 @@ var sendCardEvents = function(book, cardId) {
 		return c.id === cardId;
 	})[0];
 
-	console.log(card);
 	var events = [];
 
 	if (card.vibrate !== "") {
@@ -514,6 +569,12 @@ var sendCardEvents = function(book, cardId) {
 		var image = { type: "image", value: card.image };
 
 		events.push(image);
+	}
+
+	if (card.sound !== "") {
+		var sound = { type: "sound", value: card.sound };
+
+		events.push(sound);
 	}
 
 	doEventPost(events);
@@ -550,61 +611,68 @@ function goTeacherScreen () {
 	loadPreset(presets[0]);
 	$("#btn-voltar").show();
 		//loadCards(cards);
-	;
-}
+		;
+	}
 
-function goStudentScreen()
-{
-	$('.student-screen').height($(window).height()-140);
-	
-	hideConfig();
-	$(".chose-screen").hide();
-	$(".student-screen").show();
-	$("#btn-voltar").show();
-	
-
-	startTimer();
-}
-
-
-$(document).ready(function () {
-
-	$("#btn-voltar").click(function()
+	function goStudentScreen()
 	{
-		goHome();
-	})
-	logger.turnOffDebug();
+		$('.student-screen').height($(window).height()-140);
 
-	$(".teacher-screen").hide();
-	$(".student-screen").hide();
+		hideConfig();
+		$(".chose-screen").hide();
+		$(".student-screen").show();
+		$("#btn-voltar").show();
 
-	$(".teacher-button").on('click', function() {
-		goTeacherScreen();
+
+		startTimer();
+	}
+
+
+	$(document).ready(function () {
+
+		$("#btn-voltar").click(function()
+		{
+			goHome();
+		})
+		logger.turnOffDebug();
+
+		$(".teacher-screen").hide();
+		$(".student-screen").hide();
+
+		$(".teacher-button").on('click', function() {
+			goTeacherScreen();
+		});
+
+		$(".student-button").on('click', function() {
+			goStudentScreen();
+		});
+
+		$(".student-screen").on('click', function() {
+			if (pending.length === 0) {
+				lastId = 0;
+				receiveMessage();
+			}
+		});
+
+		$("#btnConfig").on('click', function() {
+
+			if ($(".config").is(":visible")) {
+				$(".config").hide();
+			} else {
+				$("#serverip").val(server);
+				$(".config").show();
+			}
+
+		});
+
+		$("#closeConfig").on('click', function() {
+			$("#btnConfig").click();
+		});
+
+		$("#saveConfig").on('click', function() {
+			server = $("#serverip").val();
+
+			$("#btnConfig").click();
+		});
+
 	});
-
-	$(".student-button").on('click', function() {
-		goStudentScreen();
-	});
-
-	$("#btnConfig").on('click', function() {
-
-		if ($(".config").is(":visible")) {
-			$(".config").hide();
-		} else {
-			$("#serverip").val(server);
-			$(".config").show();
-		}
-
-	});
-
-	$("#closeConfig").on('click', function() {
-		$("#btnConfig").click();
-	});
-
-	$("#saveConfig").on('click', function() {
-		server = $("#serverip").val();
-
-		$("#btnConfig").click();
-	});
-
-}); 
