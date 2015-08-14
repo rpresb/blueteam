@@ -162,7 +162,7 @@ var bookCollection = {
 		color: "#E29D9A",
 		image: "porquinho.svg",
 		vibrate: "three",
-		sound: ["happystarting.wav","oink1.mp3"]
+		sound: ["happystarting.mp3","oink1.mp3"]
 	},
 	{
 		id: 1,
@@ -170,7 +170,7 @@ var bookCollection = {
 		text: "Um dia, eles resolveram deixar a casa de sua mãe e foram construir suas próprias casas na floresta.",
 		image: "casa.svg",
 		vibrate: "hammer",
-		sound: ["hammer3.wav"]
+		sound: ["hammer3.mp3"]
 	},
 	{
 		id: 2,
@@ -178,7 +178,7 @@ var bookCollection = {
 		text: "O porquinho Prático disse que faria sua casa de tijolos.",
 		image: "tijolo.svg",
 		vibrate: "hammer",
-		sound: ["hammer2.wav"]
+		sound: ["hammer2.mp3"]
 	},
 	{
 		id: 3,
@@ -186,7 +186,7 @@ var bookCollection = {
 		text: "O porquinho Heitor decidiu construir sua casa de madeira.",
 		image: "madeira.svg",
 		vibrate: "hammer",
-		sound: ["hammer3.wav"]
+		sound: ["hammer3.mp3"]
 	},
 	{
 		id: 4,
@@ -194,7 +194,7 @@ var bookCollection = {
 		text: "E o porquinho Cícero decidiu construir sua casa de palha.",
 		image: "palha.svg",
 		vibrate: "hammer",
-		sound: ["hammer1.wav"]
+		sound: ["hammer1.mp3"]
 	},
 	{
 		id: 5,
@@ -202,7 +202,7 @@ var bookCollection = {
 		text: "Uma noite, veio um lobo, bateu na casa de palha e queria entrar.",
 		image: "lobo.svg",
 		vibrate: "continuous",
-		sound: ["wolf1.wav","knock1.wav"]
+		sound: ["wolf1.mp3","knock1.mp3"]
 	},
 	{
 		id: 6,
@@ -210,7 +210,7 @@ var bookCollection = {
 		text: "O porquinho apavorado não abriu a porta. Então o lobo estufou o peito, soprou forte e a casa de palha voou pelos ares.",
 		image: "vento.svg",
 		vibrate: "continuous",
-		sound: ["blowing1.wav"]
+		sound: ["blowing1.mp3"]
 	},
 	{
 		id: 7,
@@ -218,7 +218,7 @@ var bookCollection = {
 		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e bateu mas ninguém abriu a porta.",
 		image: "lobo.svg",
 		vibrate: "continuous",
-		sound: ["wolf2.wav","knock2.wav"]
+		sound: ["wolf2.mp3","knock2.mp3"]
 	},
 	{
 		id: 8,
@@ -226,7 +226,7 @@ var bookCollection = {
 		text: "Então o lobo estufou o peito, soprou forte e a casa de madeira voou pelos ares.",
 		image: "vento.svg",
 		vibrate: "continuous",
-		sound: ["blowing2.wav"]
+		sound: ["blowing2.mp3"]
 	},
 	{
 		id: 9,
@@ -234,7 +234,7 @@ var bookCollection = {
 		text: "Os porquinhos correram para a casa de tijolos.",
 		image: "porquinho.svg",
 		vibrate: "three",
-		sound: ["oink3.wav"]
+		sound: ["oink3.mp3"]
 	},
 	{
 		id: 10,
@@ -242,7 +242,7 @@ var bookCollection = {
 		text: "Como o porquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.svg",
 		vibrate: "three",
-		sound: ["happyending.wav"]
+		sound: ["happyending.mp3"]
 	}
 
 	]};
@@ -296,34 +296,33 @@ var bookCollection = {
 		if (lastId != data.id) {
 			lastId = data.id;
 
-			// $(".student-screen").html("");
 			pending = [];
 
-			console.log(data.events);
+			$(".student-screen").css("background-color", "transparent");
+			$(".student-screen > .student-img").css("background-image", "");
 
 			data.events.forEach(function (e) {
 				switch (e.type) {
 					case "image":
-					$(".student-screen > .student-img").css("background-image", "url('img/" + e.value + "')");
-					//$(".student-screen").css("background-color", "transparent");
-					break;
+						$(".student-screen > .student-img").css("background-image", "url('img/" + e.value + "')");
+						//$(".student-screen").css("background-color", "transparent");
+						break;
 					case "color":
-
 						$(".student-screen").css("background-color", e.value);
-					break;
+						break;
 
 					case "vibrate":
-					pending.push("vibrate");
-					vibrateStack = e.value;
-					setTimeout('vibrate()', 10);
-					break;
+						pending.push("vibrate");
+						vibrateStack = e.value;
+						setTimeout('vibrate()', 10);
+						break;
 
 					case "sound":
-					pending.push("sound");
-					soundStack = e.value;
-					setTimeout('playSound()', 10);
+						pending.push("sound");
+						soundStack = e.value;
+						setTimeout('playSound()', 10);
 
-					break;
+						break;
 				}
 			});
 		}
@@ -370,7 +369,9 @@ var bookCollection = {
 		}
 
 		var receiveMessage = function() {
-			doAjax(server + "/api/messages/receive", "GET", null, showMessage);
+			if (pending.length === 0) {
+				doAjax(server + "/api/messages/receive", "GET", null, showMessage);
+			}
 		};
 
 		var stopTimer = function() {
