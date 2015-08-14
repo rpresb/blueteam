@@ -277,7 +277,7 @@ var showMessage = function(data) {
 
 var playSound = function() {
 	var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', '/android_asset/wwww/aud/' + soundStack.shift());
+    audioElement.setAttribute('src', 'aud/' + soundStack.shift());
     audioElement.setAttribute('autoplay', 'autoplay');
 
     audioElement.addEventListener("load", function() {
