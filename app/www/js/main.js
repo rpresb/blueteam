@@ -88,7 +88,7 @@ var presets = [
 	{
 
 		type: "book",
-		values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Lobo Mal", icon: "lobo.png" },{ name: "Cozinhando", icon: "lobo.png" } ]
+		values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Lobo Mal", icon: "lobo.png" },{ name: "Cozinhando", icon: "brigadeiro.png" } ]
 	},
 	{
 		type: "color",
@@ -387,7 +387,7 @@ var bookCollection = {
 		preset.configs.forEach(function (c) {
 			switch (c.type) {
 				case "book":
-				html += "<div class='category'><h1>Livros</h1><ul>";
+				html += "<div class='category'><h1>Coleções</h1><ul>";
 
 				c.values.forEach(function (book) {
 					html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'><span>" + book.name + "</span></a></li>";
