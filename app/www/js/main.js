@@ -110,7 +110,7 @@ var bookCollection = {
 		color: "",
 		image: "porquinho.png",
 		vibrate: "three",
-		sound: ["oink1.m4a"]
+		sound: ["happystarting.m4a","oink1.m4a"]
 	},
 	{
 		id: 1,
@@ -190,7 +190,7 @@ var bookCollection = {
 		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.png",
 		vibrate: "three",
-		sound: ["oink2.m4a"]
+		sound: ["happyending.m4a"]
 	},
 
 ]};
@@ -571,4 +571,4 @@ $(document).ready(function () {
 		$("#btnConfig").click();
 	});
 
-}); 
+});
