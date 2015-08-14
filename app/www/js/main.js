@@ -26,47 +26,47 @@ var vibrationTypes = [
 	{
 		type: "Coração",
 		pattern: [
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 },
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 },
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 },
-                { "time": 300, "delay": 50 },
-                { "time": 200, "delay": 300 }
+			{ "time": 300, "delay": 50 },
+			{ "time": 200, "delay": 300 },
+			{ "time": 300, "delay": 50 },
+			{ "time": 200, "delay": 300 },
+			{ "time": 300, "delay": 50 },
+			{ "time": 200, "delay": 300 },
+			{ "time": 300, "delay": 50 },
+			{ "time": 200, "delay": 300 }
 		]
 	},
 	{
 		type: "Longa",
 		pattern: [
-                { "time": 2000, "delay": 0 }
+			{ "time": 2000, "delay": 0 }
 		]
 	},
 	{
 		type: "three",
 		pattern: [
-                { "time": 1000, "delay": 500 },
-                { "time": 1000, "delay": 500 },
-                { "time": 1000, "delay": 500 }
+			{ "time": 1000, "delay": 500 },
+			{ "time": 1000, "delay": 500 },
+			{ "time": 1000, "delay": 500 }
 		]
 	},
 	{
 		type: "hammer",
 		pattern: [
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 },
-                { "time": 200, "delay": 200 }
+			{ "time": 200, "delay": 200 },
+			{ "time": 200, "delay": 200 },
+			{ "time": 200, "delay": 200 },
+			{ "time": 200, "delay": 200 },
+			{ "time": 200, "delay": 200 },
+			{ "time": 200, "delay": 200 },
+			{ "time": 200, "delay": 200 },
+			{ "time": 200, "delay": 200 }
 		]
 	},
 	{
 		type: "continuous",
 		pattern: [
-                { "time": 5000, "delay": 0 }
+			{ "time": 5000, "delay": 0 }
 		]
 	}
 ];
@@ -188,7 +188,7 @@ var bookCollection = {
 	{
 		id: 10,
 		name: "The end",
-		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
+		text: "Como o porquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.png",
 		vibrate: "three",
 		sound: ["happyending.m4a"]
@@ -259,11 +259,11 @@ var showMessage = function(data) {
 					break;
 				case "vibrate":
 					vibrateStack = e.value;
-					vibrate();
+					setTimeout('vibrate()', 10);
 					break;
 				case "sound":
 					soundStack = e.value;
-					playSound();
+					setTimeout('playSound()', 10);
 
 					break;
 			}
@@ -428,30 +428,6 @@ var loadCards = function(bookName) {
 		var book = $(e.target).data('book');
 		sendCardEvents(book, id);
 	});
-
-	// $(".event").on('click', function(e) {
-	// 	var obj = $(e.target);
-
-	// 	var isSelected = obj.hasClass("selected");
-
-	// 	if (obj.hasClass("color-button")) {
-	// 		$(".color-button").removeClass("selected");
-	// 	}
-
-	// 	if (obj.hasClass("vibrate-button")) {
-	// 		$(".vibrate-button").removeClass("selected");
-	// 	}
-
-	// 	if (!isSelected) {
-	// 		obj.addClass("selected");
-	// 	}
-
-	// });
-
-	// $(".button").on('click', function(e) {
-	// 	sendEvent();
-	// });
-
 }
 
 var sendEvent = function() {
