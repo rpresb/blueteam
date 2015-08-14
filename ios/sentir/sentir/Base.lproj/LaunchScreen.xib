@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="small_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="ygG-We-Wfm">
+                    <rect key="frame" x="0.0" y="-8" width="480" height="488"/>
+                    <color key="backgroundColor" red="0.95294123888015747" green="0.12156863510608673" blue="0.23137256503105164" alpha="1" colorSpace="deviceRGB"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="ygG-We-Wfm" secondAttribute="bottom" id="52v-pD-VqC"/>
+                <constraint firstAttribute="trailing" secondItem="ygG-We-Wfm" secondAttribute="trailing" id="5Yv-RW-SEp"/>
+                <constraint firstItem="ygG-We-Wfm" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GyB-w6-vIP"/>
+                <constraint firstItem="ygG-We-Wfm" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Vpp-JP-ESo"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="548" y="455"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="small_logo.png" width="130" height="55"/>
+    </resources>
+</document>
