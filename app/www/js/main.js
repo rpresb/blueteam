@@ -130,7 +130,7 @@ var bookCollection = {
 	},
 	{
 		id: 3,
-		name: "Tijolo",
+		name: "Madeira",
 		text: "O porquinho Heitor decidiu construir sua casa de madeira.",
 		image: "madeira.png",
 		vibrate: "hammer",
@@ -149,7 +149,7 @@ var bookCollection = {
 		name: "Lobo",
 		text: "Uma noite, veio um lobo, bateu na casa de palha e queria entrar.",
 		image: "lobo.png",
-		vibrate: "continuous ",
+		vibrate: "continuous",
 		sound: ["wolf1.m4a","knock1.m4a"]
 	},
 	{
@@ -157,39 +157,39 @@ var bookCollection = {
 		name: "Vento",
 		text: "O porquinho apavorado não abriu a porta. Então o lobo estufou o peito, soprou forte e a casa de palha voou pelos ares.",
 		image: "vento.png",
-		vibrate: "Coração",
+		vibrate: "continuous",
 		sound: ["blowing1.m4a"]
 	},
 	{
 		id: 7,
-		name: "Porta Fechada",
+		name: "Lobo",
 		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e bateu mas ninguém abriu a porta.",
 		image: "lobo.png",
-		vibrate: "Coração",
+		vibrate: "continuous",
 		sound: ["wolf2.m4a","knock2.m4a"]
 	},
 	{
 		id: 8,
-		name: "Porta Fechada",
+		name: "Vento",
 		text: "Então o lobo estufou o peito, soprou forte e a casa de madeira voou pelos ares.",
 		image: "vento.png",
-		vibrate: "Coração",
+		vibrate: "continuous",
 		sound: ["blowing2.m4a"]
 	},
 	{
 		id: 9,
-		name: "Porta Fechada",
+		name: "Porquinho",
 		text: "Os porquinhos correram para a casa de tijolos.",
 		image: "porquinho.png",
-		vibrate: "Coração",
+		vibrate: "three",
 		sound: ["oink3.m4a"]
 	},
 	{
 		id: 10,
-		name: "Porta Fechada",
+		name: "The end",
 		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.png",
-		vibrate: "Coração",
+		vibrate: "three",
 		sound: ["oink2.m4a"]
 	},
 
@@ -269,7 +269,7 @@ var showMessage = function(data) {
 
 var playSound = function(fileName) {
 	var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'sound/' + fileName);
+    audioElement.setAttribute('src', 'aud/' + fileName);
     audioElement.setAttribute('autoplay', 'autoplay');
 
     audioElement.addEventListener("load", function() {
