@@ -2,8 +2,8 @@ var userData = {};
 var ua = navigator.userAgent;
 var logger = new Logger("main.js");
 
-var server = "http://localhost:3000";
-// var server = "http://10.24.2.145:3000";
+//var server = "http://localhost:3000";
+var server = "http://10.24.2.145:3000";
 //var server = "http://192.168.1.35:3000";
 
 var lastId = 0;
@@ -162,7 +162,7 @@ var bookCollection = {
 		color: "#E29D9A",
 		image: "porquinho.svg",
 		vibrate: "three",
-		sound: ["happystarting.wav","oink1.wav"]
+		sound: ["happystarting.wav","oink1.mp3"]
 	},
 	{
 		id: 1,
@@ -603,6 +603,9 @@ function goHome()
 	$(".control-panel, .teacher-screen, .student-screen").hide();
 	$(".chose-screen, #btnConfig").show();
 	$("#btn-voltar").hide();
+
+	stopTimer();
+
 }
 
 function goTeacherScreen () {
