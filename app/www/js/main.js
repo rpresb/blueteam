@@ -40,6 +40,33 @@ var vibrationTypes = [
 		pattern: [
                 { "time": 2000, "delay": 0 }
 		]
+	},
+	{
+		type: "three",
+		pattern: [
+                { "time": 1000, "delay": 500 },
+                { "time": 1000, "delay": 500 },
+                { "time": 1000, "delay": 500 }
+		]
+	},
+	{
+		type: "hammer",
+		pattern: [
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 },
+                { "time": 200, "delay": 200 }
+		]
+	},
+	{
+		type: "continuous",
+		pattern: [
+                { "time": 5000, "delay": 0 }
+		]
 	}
 ];
 
@@ -74,96 +101,96 @@ var presets = [
 	}
 ];
 
-var bookCollection = { 
+var bookCollection = {
 	"Os três porquinhos": [
 	{
-		id: 1,
+		id: 0,
 		name: "Porquinho",
 		text: "Era uma vez, três porquinhos chamados: Cícero, Heitor e Prático.",
 		color: "",
 		image: "porquinho.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "three",
+		sound: ["oink1.m4a"]
 	},
 	{
-		id: 2,
+		id: 1,
 		name: "Casa",
 		text: "Um dia, eles resolveram deixar a casa de sua mãe e foram construir suas próprias casas na floresta.",
 		image: "casa.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer3.m4a"]
 	},
 	{
 		id: 2,
 		name: "Tijolo",
 		text: "O porquinho Prático disse que faria sua casa de tijolos.",
 		image: "tijolo.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer2.m4a"]
 	},
 	{
-		id: 2,
-		name: "Tijolo",
-		text: "O porquinho Heitor decidiu construir sua casa de madeira",
+		id: 3,
+		name: "Madeira",
+		text: "O porquinho Heitor decidiu construir sua casa de madeira.",
 		image: "madeira.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer3.m4a"]
 	},
 	{
-		id: 2,
+		id: 4,
 		name: "Palha",
 		text: "E o porquinho Cícero decidiu construir sua casa de palha.",
 		image: "palha.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "hammer",
+		sound: ["hammer1.m4a"]
 	},
 	{
-		id: 2,
+		id: 5,
 		name: "Lobo",
 		text: "Uma noite, veio um lobo, bateu na casa de palha e queria entrar.",
 		image: "lobo.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "continuous",
+		sound: ["wolf1.m4a","knock1.m4a"]
 	},
 	{
-		id: 2,
+		id: 6,
 		name: "Vento",
 		text: "O porquinho apavorado não abriu a porta. Então o lobo estufou o peito, soprou forte e a casa de palha voou pelos ares.",
 		image: "vento.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "continuous",
+		sound: ["blowing1.m4a"]
 	},
 	{
-		id: 2,
-		name: "Porta Fechada",
-		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e gritou mas ninguém abriu a porta.",
+		id: 7,
+		name: "Lobo",
+		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e bateu mas ninguém abriu a porta.",
 		image: "lobo.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "continuous",
+		sound: ["wolf2.m4a","knock2.m4a"]
 	},
 	{
-		id: 2,
-		name: "Porta Fechada",
+		id: 8,
+		name: "Vento",
 		text: "Então o lobo estufou o peito, soprou forte e a casa de madeira voou pelos ares.",
 		image: "vento.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "continuous",
+		sound: ["blowing2.m4a"]
 	},
 	{
-		id: 2,
-		name: "Porta Fechada",
+		id: 9,
+		name: "Porquinho",
 		text: "Os porquinhos correram para a casa de tijolos.",
-		image: "tijolo.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		image: "porquinho.png",
+		vibrate: "three",
+		sound: ["oink3.m4a"]
 	},
 	{
-		id: 2,
-		name: "Porta Fechada",
+		id: 10,
+		name: "The end",
 		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.png",
-		vibrate: "Coração",
-		sound: "pig.wav"
+		vibrate: "three",
+		sound: ["oink2.m4a"]
 	},
 
 ]};
@@ -219,8 +246,13 @@ var showMessage = function(data) {
 
 		data.events.forEach(function (e) {
 			switch (e.type) {
+				case "image":
+					$(".student-screen").html("<img src='img/" + e.value + "' />");
+					$(".student-screen").css("background-color", "transparent");
+					break;
 				case "color":
-					$("body").css("background-color", e.value);
+					$(".student-screen").html("");
+					$(".student-screen").css("background-color", e.value);
 					break;
 				case "vibrate":
 					vibrateStack = e.value;
@@ -237,7 +269,7 @@ var showMessage = function(data) {
 
 var playSound = function(fileName) {
 	var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'sound/' + fileName);
+    audioElement.setAttribute('src', 'aud/' + fileName);
     audioElement.setAttribute('autoplay', 'autoplay');
 
     audioElement.addEventListener("load", function() {
@@ -272,7 +304,7 @@ var loadPreset = function(preset) {
 	preset.configs.forEach(function (c) {
 		switch (c.type) {
 			case "book":
-				html += "<div class='category'><h1>Livro</h1><ul>";
+				html += "<div class='category'><h2>Livro</h2><ul>";
 
 				c.values.forEach(function (book) {
 					html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'>" + book.name + "</a></li>";
@@ -282,7 +314,7 @@ var loadPreset = function(preset) {
 
 				break;
 			case "color":
-				html += "<div class='category'><h1>Envie uma sensação</h1><h2>Cor</h2>";
+				html += "<div class='category'><h2>Cor</h2>";
 
 				c.values.forEach(function (color) {
 					html += "<a class='event color-button' data-value='" + color + "' style='background-color:" + color + "'></a>";
@@ -299,7 +331,7 @@ var loadPreset = function(preset) {
 				});
 
 				html += "</div>";
-				
+
 				break;
 			case "sound":
 				html += "<div class='category'><h2>Som</h2>";
@@ -314,7 +346,7 @@ var loadPreset = function(preset) {
 		}
 	});
 
-	html += "<div class='category'><a class='button'>Enviar</a></div>";
+	html += "<a class='button'>Enviar</a>";
 
 	$(".control-panel").html(html);
 
@@ -356,20 +388,21 @@ var showBook = function(bookName) {
 	$(".control-panel").hide();
 	$(".teacher-screen").show();
 
-	loadCards(bookCollection[bookName]);
+	loadCards(bookName);
 }
 
-var loadCards = function(cards) {
+var loadCards = function(bookName) {
+	var cards = bookCollection[bookName];
 	var html = "";
 
 	cards.forEach(function (c) {
 
 		html += "<div class='group'><p>" + c.text + "</p>";
 		if (c.image == "") {
-			html += "<a class='event color-button' data-id=" + c.id + " style='background-color:" + c.color + "'></a>";
+			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-color:" + c.color + "'></a>";
 		}
 		else {
-			html += "<a class='event color-button' data-id=" + c.id + " style='background-image: url(img/" + c.image + ")'></a>";
+			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-image: url(img/" + c.image + ")'></a>";
 		}
 
 		html += "<div class='clear'></div></div>";
@@ -380,8 +413,8 @@ var loadCards = function(cards) {
 
 	$(".event").on('click', function(e) {
 		var id = $(e.target).data('id');
-		var event = cards[id];
-		sendEvent(event);
+		var book = $(e.target).data('book');
+		sendCardEvents(book, id);
 	});
 
 	// $(".event").on('click', function(e) {
@@ -409,11 +442,9 @@ var loadCards = function(cards) {
 
 }
 
-var sendEvent = function(event) {
+var sendEvent = function() {
 	var selectedObjs = $(".selected");
 	//console.log(event);
-
-	var payload = { id: (new Date()).getTime(), events: null };
 
 	var events = [];
 
@@ -453,7 +484,42 @@ var sendEvent = function(event) {
 		events.push(e);
 	};
 
-	payload.events = events;
+	doEventPost(events);
+};
+
+var sendCardEvents = function(book, cardId) {
+	var card = bookCollection[book].filter(function (c) {
+		return c.id === cardId;
+	})[0];
+
+	console.log(card);
+	var events = [];
+
+	if (card.vibrate !== "") {
+		var vibrate = { type: "vibrate" };
+
+		var pattern = vibrationTypes.filter(function (p) {
+			return p.type === card.vibrate;
+		});
+
+		if (pattern.length > 0) {
+			vibrate.value = pattern[0].pattern;
+		}
+
+		events.push(vibrate);
+	}
+
+	if (card.image !== "") {
+		var image = { type: "image", value: card.image };
+
+		events.push(image);
+	}
+
+	doEventPost(events);
+};
+
+var doEventPost = function(events) {
+	var payload = { id: (new Date()).getTime(), events: events };
 
 	doAjax(server + "/api/messages/send", "POST", JSON.stringify(payload), function(data) {
 		$(".button").after("<div class='message'>Enviado com sucesso.</div>");
@@ -461,7 +527,7 @@ var sendEvent = function(event) {
 			$("div.message").remove();
 		}, 2000);
 	});
-}
+};
 
 $(document).ready(function () {
 	logger.turnOffDebug();
@@ -488,7 +554,7 @@ $(document).ready(function () {
 
 		if ($(".config").is(":visible")) {
 			$(".config").hide();
-		} else { 
+		} else {
 			$("#serverip").val(server);
 			$(".config").show();
 		}
