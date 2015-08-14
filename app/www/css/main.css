@@ -79,12 +79,10 @@ body {
 .student-screen > .student-img
 {
 	width: 100%;
-	height:100%;
+	height: 100%;
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-position: center;
-
-
 }
 
 .teacher-screen
@@ -307,6 +305,7 @@ div.message {
 	position: relative;
 
 }
+
 .control-panel li span
 {
 	background:white;
@@ -318,11 +317,23 @@ div.message {
 }
 
 #preview {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	height: 100%;
 	background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.preview-close {
+    top: 30px;
+    right: 30px;
+    display: block;
+    position: fixed;
+    font-size: 46px;
+    line-height: 46px;
+    color: #FFF;
+	-webkit-text-stroke-width: 2px;
+	-webkit-text-stroke-color: #444;
+	font-weight: bold;
 }

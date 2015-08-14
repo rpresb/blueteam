@@ -11,6 +11,7 @@ var vibrateStack = null;
 var timer = null;
 var soundStack = null;
 var pending = [];
+var previewContent = null;
 
 var device = {
 	Android: function() {
@@ -360,8 +361,15 @@ var bookCollection = {
 
 	var checkFinished = function() {
 		if (pending.length === 0) {
-			$("body").css("overflow", "auto");
-			$("#preview").remove();
+			$("#preview").append("<a class='preview-close'>X</a>");
+
+			$(".preview-close").bind('click', function() {
+				$("#preview").remove();
+			});
+
+			$("#preview .student-img").bind('click', function() {
+				sendCardEvents(previewContent.book, previewContent.cardId);
+			});
 		} else {
 			setTimeout('checkFinished()', 500);
 		}
@@ -600,14 +608,24 @@ var bookCollection = {
 		
 		doEventPost(events);
 
-		var preview = $(".student-screen").clone();
-		preview.attr("id", "preview").css("top", $("body").scrollTop() + "px");
-		$("body").css("overflow", "hidden").append(preview);
+		if ($("#preview").length === 0) {
+			var preview = $(".student-screen").clone();
+			preview.attr("id", "preview");
+			$("body").append(preview);
+			preview.fadeIn();
+		}
+		previewContent = { book: book, cardId: cardId };
 
-		preview.fadeIn();
+		startPreview(events);
+	};
+
+	var startPreview = function(events) {
+		$(".preview-close").unbind('click');
+		$(".preview-close").remove();
+
+		$("#preview .student-img").unbind('click');
 
 		showMessage({id: (new Date()).getTime(), events: events });
-
 		checkFinished();
 	};
 
