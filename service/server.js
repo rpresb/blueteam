@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.static(__dirname + '/public'));
 
 app.use('/api/messages', require('./api/messages')());
-app.use('/api/info', require('./api/info')());
+// app.use('/api/info', require('./api/info')());
 
 var server = app.listen(port, function() {
 	var host = server.address().address;

@@ -1,7 +1,8 @@
 var userData = {};
 var ua = navigator.userAgent;
 var logger = new Logger("main.js");
-var server = "http://10.24.2.145:3000";
+var server = "http://localhost:3000";
+// var server = "http://10.24.2.145:3000";
 //var server = "http://192.168.1.35:3000";
 var lastId = 0;
 var vibrateStack = null;
@@ -108,7 +109,7 @@ var bookCollection = {
 		name: "Porquinho",
 		text: "Era uma vez, três porquinhos chamados: Cícero, Heitor e Prático.",
 		color: "",
-		image: "porquinho.png",
+		image: "porquinho.svg",
 		vibrate: "three",
 		sound: ["oink1.m4a"]
 	},
@@ -116,7 +117,7 @@ var bookCollection = {
 		id: 1,
 		name: "Casa",
 		text: "Um dia, eles resolveram deixar a casa de sua mãe e foram construir suas próprias casas na floresta.",
-		image: "casa.png",
+		image: "casa.svg",
 		vibrate: "hammer",
 		sound: ["hammer3.m4a"]
 	},
@@ -124,7 +125,7 @@ var bookCollection = {
 		id: 2,
 		name: "Tijolo",
 		text: "O porquinho Prático disse que faria sua casa de tijolos.",
-		image: "tijolo.png",
+		image: "tijolo.svg",
 		vibrate: "hammer",
 		sound: ["hammer2.m4a"]
 	},
@@ -132,7 +133,7 @@ var bookCollection = {
 		id: 3,
 		name: "Madeira",
 		text: "O porquinho Heitor decidiu construir sua casa de madeira.",
-		image: "madeira.png",
+		image: "madeira.svg",
 		vibrate: "hammer",
 		sound: ["hammer3.m4a"]
 	},
@@ -140,7 +141,7 @@ var bookCollection = {
 		id: 4,
 		name: "Palha",
 		text: "E o porquinho Cícero decidiu construir sua casa de palha.",
-		image: "palha.png",
+		image: "palha.svg",
 		vibrate: "hammer",
 		sound: ["hammer1.m4a"]
 	},
@@ -148,7 +149,7 @@ var bookCollection = {
 		id: 5,
 		name: "Lobo",
 		text: "Uma noite, veio um lobo, bateu na casa de palha e queria entrar.",
-		image: "lobo.png",
+		image: "lobo.svg",
 		vibrate: "continuous",
 		sound: ["wolf1.m4a","knock1.m4a"]
 	},
@@ -156,7 +157,7 @@ var bookCollection = {
 		id: 6,
 		name: "Vento",
 		text: "O porquinho apavorado não abriu a porta. Então o lobo estufou o peito, soprou forte e a casa de palha voou pelos ares.",
-		image: "vento.png",
+		image: "vento.svg",
 		vibrate: "continuous",
 		sound: ["blowing1.m4a"]
 	},
@@ -164,7 +165,7 @@ var bookCollection = {
 		id: 7,
 		name: "Lobo",
 		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e bateu mas ninguém abriu a porta.",
-		image: "lobo.png",
+		image: "lobo.svg",
 		vibrate: "continuous",
 		sound: ["wolf2.m4a","knock2.m4a"]
 	},
@@ -172,7 +173,7 @@ var bookCollection = {
 		id: 8,
 		name: "Vento",
 		text: "Então o lobo estufou o peito, soprou forte e a casa de madeira voou pelos ares.",
-		image: "vento.png",
+		image: "vento.svg",
 		vibrate: "continuous",
 		sound: ["blowing2.m4a"]
 	},
@@ -180,7 +181,7 @@ var bookCollection = {
 		id: 9,
 		name: "Porquinho",
 		text: "Os porquinhos correram para a casa de tijolos.",
-		image: "porquinho.png",
+		image: "porquinho.svg",
 		vibrate: "three",
 		sound: ["oink3.m4a"]
 	},
@@ -188,7 +189,7 @@ var bookCollection = {
 		id: 10,
 		name: "The end",
 		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
-		image: "casa.png",
+		image: "casa.svg",
 		vibrate: "three",
 		sound: ["oink2.m4a"]
 	},
@@ -247,8 +248,8 @@ var showMessage = function(data) {
 		data.events.forEach(function (e) {
 			switch (e.type) {
 				case "image":
-					$(".student-screen").html("<img src='img/" + e.value + "' />");
-					$(".student-screen").css("background-color", "transparent");
+					$(".student-screen > .student-img").css("background-image", "url('img/" + e.value + "')");
+					//$(".student-screen").css("background-color", "transparent");
 					break;
 				case "color":
 					$(".student-screen").html("");
@@ -546,6 +547,7 @@ $(document).ready(function () {
 	$(".student-button").on('click', function() {
 		$(".chose-screen").hide();
 		$(".student-screen").show();
+		$('.student-screen').height($(window).height()-140);
 
 		startTimer();
 	});

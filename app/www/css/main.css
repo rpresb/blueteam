@@ -57,7 +57,15 @@ body {
 
 .student-screen
 {
-	background:#222; 
+	padding: 5%;
+}
+
+.student-screen > .student-img
+{
+	width: 100%;
+	height:100%;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
 
 .teacher-screen
