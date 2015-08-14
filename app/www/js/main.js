@@ -304,7 +304,7 @@ var loadPreset = function(preset) {
 	preset.configs.forEach(function (c) {
 		switch (c.type) {
 			case "book":
-				html += "<div class='category'><h2>Livro</h2><ul>";
+				html += "<div class='category'><h1>Livros</h1><ul>";
 
 				c.values.forEach(function (book) {
 					html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'>" + book.name + "</a></li>";
@@ -314,7 +314,7 @@ var loadPreset = function(preset) {
 
 				break;
 			case "color":
-				html += "<div class='category'><h2>Cor</h2>";
+				html += "<div class='category'><h1>Crie a sua</h1><h2>Cor</h2>";
 
 				c.values.forEach(function (color) {
 					html += "<a class='event color-button' data-value='" + color + "' style='background-color:" + color + "'></a>";
@@ -346,7 +346,7 @@ var loadPreset = function(preset) {
 		}
 	});
 
-	html += "<a class='button'>Enviar</a>";
+	html += "<div class='category'><a class='button'>Enviar</a></category>";
 
 	$(".control-panel").html(html);
 
@@ -571,4 +571,4 @@ $(document).ready(function () {
 		$("#btnConfig").click();
 	});
 
-});
+}); 
