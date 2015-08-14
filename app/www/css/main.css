@@ -195,7 +195,7 @@ body {
 }
 
 div.message {
-	clear: both;
+	
 	float: left;
 }
 
@@ -215,6 +215,7 @@ div.message {
 .control-panel>.category>a.button{
 	background: #0D47A1;
 	position: 	absolute;
+	float: left;
 	
 	padding: 10px 50px;
 	margin: 10px;
