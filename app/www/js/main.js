@@ -359,229 +359,229 @@ var bookCollection = {
 		} else {
 			pending.shift();
 
-		}};
-
-
-		var startTimer = function() {
-			timer = window.setInterval(function() {
-				receiveMessage();
-			}, 1000);
 		}
+	};
+	var startTimer = function() {
+		stopTimer();
+		timer = window.setInterval(function() {
+			receiveMessage();
+		}, 1000);
+	};
 
-		var receiveMessage = function() {
-			if (pending.length === 0) {
-				doAjax(server + "/api/messages/receive", "GET", null, showMessage);
+	var receiveMessage = function() {
+		if (pending.length === 0) {
+			doAjax(server + "/api/messages/receive", "GET", null, showMessage);
+		}
+	};
+
+	var stopTimer = function() {
+		window.clearInterval(timer);
+		timer = null;
+	};
+
+
+	var loadPreset = function(preset) {
+		var html = "";
+
+		preset.configs.forEach(function (c) {
+			switch (c.type) {
+				case "book":
+				html += "<div class='category'><h1>Livros</h1><ul>";
+
+				c.values.forEach(function (book) {
+					html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'>" + book.name + "</a></li>";
+				});
+
+				html += "</ul></div>";
+
+				break;
+				case "color":
+				html += "<div class='category'><h1>Crie a sua</h1><h2>Cor</h2>";
+
+				c.values.forEach(function (color) {
+					html += "<a class='event color-button' data-value='" + color + "' style='background-color:" + color + "'></a>";
+				});
+
+				html += "</div>";
+
+				break;
+				case "vibrate":
+				html += "<div class='category'><h2>Vibrar</h2>";
+
+				c.values.forEach(function (vibrate) {
+					html += "<a class='event vibrate-button' data-value='" + vibrate + "'>" + vibrate + "</a>";
+				});
+
+				html += "</div>";
+
+				break;
+				case "sound":
+				html += "<div class='category'><h2>Som</h2>";
+
+				c.values.forEach(function (sound) {
+					html += "<a class='event sound-button' data-value='" + sound + "'>" + sound + "</a>";
+				});
+
+				html += "</div>";
+
+				break;
 			}
+		});
+
+		html += "<div class='category'><a class='button'>Enviar</a></category>";
+
+		$(".control-panel").html(html);
+
+		$(".event").on('click', function(e) {
+			var obj = $(e.target);
+
+			var isSelected = obj.hasClass("selected");
+
+			if (obj.hasClass("book-button")) {
+				showBook(obj.data("value"));
+				return;
+			}
+
+			if (obj.hasClass("color-button")) {
+				$(".color-button").removeClass("selected");
+			}
+
+			if (obj.hasClass("vibrate-button")) {
+				$(".vibrate-button").removeClass("selected");
+			}
+
+			if (obj.hasClass("sound-button")) {
+				$(".sound-button").removeClass("selected");
+			}
+
+			if (!isSelected) {
+				obj.addClass("selected");
+			}
+
+		});
+
+		$(".button").on('click', function(e) {
+			sendEvent();
+		});
+	}
+
+	var showBook = function(bookName) {
+		$(".control-panel").hide();
+		$(".teacher-screen").show();
+
+		loadCards(bookName);
+
+		doEventPost([]);
+	};
+
+	var loadCards = function(bookName) {
+		var cards = bookCollection[bookName];
+		var html = "";
+
+		cards.forEach(function (c) {
+
+			html += "<div class='group'><p>" + c.text + "</p>";
+			if (c.image === "") {
+				html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-color:" + c.color + "'></a>";
+			}
+			else {
+				html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-image: url(img/" + c.image + ")'></a>";
+			}
+
+			html += "<div class='clear'></div></div>";
+
+		});
+
+		$(".teacher-screen").html(html);
+
+		$(".event").on('click', function(e) {
+			var id = $(e.target).data('id');
+			var book = $(e.target).data('book');
+			sendCardEvents(book, id);
+		});
+	};
+
+	var sendEvent = function() {
+		var selectedObjs = $(".selected");
+
+		var events = [];
+
+		for (var i = 0; i < selectedObjs.length; i++) {
+			var obj = $(selectedObjs.get(i));
+			var e = { type: "none" };
+
+			if (obj.hasClass("color-button")) {
+				e.type = "color";
+				e.value = obj.data("value");
+			}
+
+			if (obj.hasClass("vibrate-button")) {
+				e.type = "vibrate";
+
+				var pattern = vibrationTypes.filter(function (p) {
+					return p.type === obj.data("value");
+				});
+
+				if (pattern.length > 0) {
+					e.value = pattern[0].pattern;
+				}
+			}
+
+			if (obj.hasClass("sound-button")) {
+				e.type = "sound";
+
+				var sound = soundCollection.filter(function (s) {
+					return s.type === obj.data("value");
+				});
+
+				if (sound.length > 0) {
+					e.value = [ sound[0].file ];
+				}
+			}
+
+			events.push(e);
 		};
 
-		var stopTimer = function() {
-			window.clearInterval(timer);
-			timer = null;
-		}
+		doEventPost(events);
+	};
 
+	var sendCardEvents = function(book, cardId) {
+		var card = bookCollection[book].filter(function (c) {
+			return c.id === cardId;
+		})[0];
 
-		var loadPreset = function(preset) {
-			var html = "";
+		var events = [];
 
-			preset.configs.forEach(function (c) {
-				switch (c.type) {
-					case "book":
-					html += "<div class='category'><h1>Livros</h1><ul>";
-
-					c.values.forEach(function (book) {
-						html += "<li><a class='event book-button group' data-value='" + book.name + "' style='background-image: url(img/" + book.icon + ");'>" + book.name + "</a></li>";
-					});
-
-					html += "</ul></div>";
-
-					break;
-					case "color":
-					html += "<div class='category'><h1>Crie a sua</h1><h2>Cor</h2>";
-
-					c.values.forEach(function (color) {
-						html += "<a class='event color-button' data-value='" + color + "' style='background-color:" + color + "'></a>";
-					});
-
-					html += "</div>";
-
-					break;
-					case "vibrate":
-					html += "<div class='category'><h2>Vibrar</h2>";
-
-					c.values.forEach(function (vibrate) {
-						html += "<a class='event vibrate-button' data-value='" + vibrate + "'>" + vibrate + "</a>";
-					});
-
-					html += "</div>";
-
-					break;
-					case "sound":
-					html += "<div class='category'><h2>Som</h2>";
-
-					c.values.forEach(function (sound) {
-						html += "<a class='event sound-button' data-value='" + sound + "'>" + sound + "</a>";
-					});
-
-					html += "</div>";
-
-					break;
-				}
-			});
-
-html += "<div class='category'><a class='button'>Enviar</a></category>";
-
-$(".control-panel").html(html);
-
-$(".event").on('click', function(e) {
-	var obj = $(e.target);
-
-	var isSelected = obj.hasClass("selected");
-
-	if (obj.hasClass("book-button")) {
-		showBook(obj.data("value"));
-		return;
-	}
-
-	if (obj.hasClass("color-button")) {
-		$(".color-button").removeClass("selected");
-	}
-
-	if (obj.hasClass("vibrate-button")) {
-		$(".vibrate-button").removeClass("selected");
-	}
-
-	if (obj.hasClass("sound-button")) {
-		$(".sound-button").removeClass("selected");
-	}
-
-	if (!isSelected) {
-		obj.addClass("selected");
-	}
-
-});
-
-$(".button").on('click', function(e) {
-	sendEvent();
-});
-}
-
-var showBook = function(bookName) {
-	$(".control-panel").hide();
-	$(".teacher-screen").show();
-
-	loadCards(bookName);
-
-	doEventPost([]);
-}
-
-var loadCards = function(bookName) {
-	var cards = bookCollection[bookName];
-	var html = "";
-
-	cards.forEach(function (c) {
-
-		html += "<div class='group'><p>" + c.text + "</p>";
-		if (c.image === "") {
-			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-color:" + c.color + "'></a>";
-		}
-		else {
-			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-image: url(img/" + c.image + ")'></a>";
-		}
-
-		html += "<div class='clear'></div></div>";
-
-	});
-
-	$(".teacher-screen").html(html);
-
-	$(".event").on('click', function(e) {
-		var id = $(e.target).data('id');
-		var book = $(e.target).data('book');
-		sendCardEvents(book, id);
-	});
-}
-
-var sendEvent = function() {
-	var selectedObjs = $(".selected");
-
-	var events = [];
-
-	for (var i = 0; i < selectedObjs.length; i++) {
-		var obj = $(selectedObjs.get(i));
-		var e = { type: "none" };
-
-		if (obj.hasClass("color-button")) {
-			e.type = "color";
-			e.value = obj.data("value");
-		}
-
-		if (obj.hasClass("vibrate-button")) {
-			e.type = "vibrate";
+		if (card.vibrate !== "") {
+			var vibrate = { type: "vibrate" };
 
 			var pattern = vibrationTypes.filter(function (p) {
-				return p.type === obj.data("value");
+				return p.type === card.vibrate;
 			});
 
 			if (pattern.length > 0) {
-				e.value = pattern[0].pattern;
+				vibrate.value = pattern[0].pattern;
 			}
+
+			events.push(vibrate);
 		}
 
-		if (obj.hasClass("sound-button")) {
-			e.type = "sound";
 
-			var sound = soundCollection.filter(function (s) {
-				return s.type === obj.data("value");
-			});
 
-			if (sound.length > 0) {
-				e.value = [ sound[0].file ];
-			}
+		if (card.image !== "") {
+			var image = { type: "image", value: card.image };
+
+			events.push(image);
 		}
 
-		events.push(e);
+		if (card.sound !== "") {
+			var sound = { type: "sound", value: card.sound };
+
+			events.push(sound);
+		}
+		
+		doEventPost(events);
 	};
-
-	doEventPost(events);
-};
-
-var sendCardEvents = function(book, cardId) {
-	var card = bookCollection[book].filter(function (c) {
-		return c.id === cardId;
-	})[0];
-
-	var events = [];
-
-	if (card.vibrate !== "") {
-		var vibrate = { type: "vibrate" };
-
-		var pattern = vibrationTypes.filter(function (p) {
-			return p.type === card.vibrate;
-		});
-
-		if (pattern.length > 0) {
-			vibrate.value = pattern[0].pattern;
-		}
-
-		events.push(vibrate);
-	}
-
-
-
-	if (card.image !== "") {
-		var image = { type: "image", value: card.image };
-
-		events.push(image);
-	}
-
-	if (card.sound !== "") {
-		var sound = { type: "sound", value: card.sound };
-
-		events.push(sound);
-	}
-	
-	doEventPost(events);
-};
 
 var doEventPost = function(events) {
 	var payload = { id: (new Date()).getTime(), events: events };
@@ -616,69 +616,66 @@ function goTeacherScreen () {
 
 	loadPreset(presets[0]);
 	$("#btn-voltar").show();
-		//loadCards(cards);
-		;
-	}
+}
 
-	function goStudentScreen()
-	{
-		$('.student-screen').height($(window).height()-140);
+function goStudentScreen()
+{
+	$('.student-screen').height($(window).height()-140);
 
-		hideConfig();
-		$(".chose-screen").hide();
-		$(".student-screen").show();
-		$("#btn-voltar").show();
+	hideConfig();
+	$(".chose-screen").hide();
+	$(".student-screen").show();
+	$("#btn-voltar").show();
 
-
-		startTimer();
-	}
+	startTimer();
+}
 
 
-	$(document).ready(function () {
+$(document).ready(function () {
 
-		$("#btn-voltar").click(function()
-		{
-			goHome();
-		})
-		logger.turnOffDebug();
+	$("#btn-voltar").click(function() {
+		goHome();
+	});
 
-		$(".teacher-screen").hide();
-		$(".student-screen").hide();
+	logger.turnOffDebug();
 
-		$(".teacher-button").on('click', function() {
-			goTeacherScreen();
-		});
+	$(".teacher-screen").hide();
+	$(".student-screen").hide();
 
-		$(".student-button").on('click', function() {
-			goStudentScreen();
-		});
+	$(".teacher-button").on('click', function() {
+		goTeacherScreen();
+	});
 
-		$(".student-screen").on('click', function() {
-			if (pending.length === 0) {
-				lastId = 0;
-				receiveMessage();
-			}
-		});
+	$(".student-button").on('click', function() {
+		goStudentScreen();
+	});
 
-		$("#btnConfig").on('click', function() {
+	$(".student-screen").on('click', function() {
+		if (pending.length === 0) {
+			lastId = 0;
+			receiveMessage();
+		}
+	});
 
-			if ($(".config").is(":visible")) {
-				$(".config").hide();
-			} else {
-				$("#serverip").val(server);
-				$(".config").show();
-			}
+	$("#btnConfig").on('click', function() {
 
-		});
-
-		$("#closeConfig").on('click', function() {
-			$("#btnConfig").click();
-		});
-
-		$("#saveConfig").on('click', function() {
-			server = $("#serverip").val();
-
-			$("#btnConfig").click();
-		});
+		if ($(".config").is(":visible")) {
+			$(".config").hide();
+		} else {
+			$("#serverip").val(server);
+			$(".config").show();
+		}
 
 	});
+
+	$("#closeConfig").on('click', function() {
+		$("#btnConfig").click();
+	});
+
+	$("#saveConfig").on('click', function() {
+		server = $("#serverip").val();
+
+		$("#btnConfig").click();
+	});
+
+});
