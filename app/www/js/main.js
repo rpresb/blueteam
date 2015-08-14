@@ -7,6 +7,7 @@ var lastId = 0;
 var vibrateStack = null;
 var timer = null;
 var soundStack = null;
+var pending = [];
 
 var device = {
 	Android: function() {
@@ -246,6 +247,7 @@ var showMessage = function(data) {
 		lastId = data.id;
 
 		$(".student-screen").html("");
+		pending = [];
 
 		data.events.forEach(function (e) {
 			switch (e.type) {
@@ -258,10 +260,12 @@ var showMessage = function(data) {
 					$(".student-screen").css("background-color", e.value);
 					break;
 				case "vibrate":
+					pending.push("vibrate");
 					vibrateStack = e.value;
 					setTimeout('vibrate()', 10);
 					break;
 				case "sound":
+					pending.push("sound");
 					soundStack = e.value;
 					setTimeout('playSound()', 10);
 
@@ -273,7 +277,7 @@ var showMessage = function(data) {
 
 var playSound = function() {
 	var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'aud/' + soundStack.pop());
+    audioElement.setAttribute('src', '/android_asset/wwww/aud/' + soundStack.shift());
     audioElement.setAttribute('autoplay', 'autoplay');
 
     audioElement.addEventListener("load", function() {
@@ -283,26 +287,34 @@ var playSound = function() {
     audioElement.addEventListener("ended", function(p) {
 	    if (soundStack.length > 0) {
 	    	setTimeout('playSound()', 10);
+	    } else {
+	    	pending.shift();
 	    }
     });
 
 }
 
 var vibrate = function() {
-	var v = vibrateStack.pop();
+	var v = vibrateStack.shift();
 
 	navigator.vibrate(v.time);
 
 	if (vibrateStack.length > 0) {
 		setTimeout('vibrate()', v.time + v.delay);
+	} else {
+    	pending.shift();
 	}
 }
 
 var startTimer = function() {
 	timer = window.setInterval(function() {
-		doAjax(server + "/api/messages/receive", "GET", null, showMessage);
+		receiveMessage();
 	}, 1000);
 }
+
+var receiveMessage = function() {
+	doAjax(server + "/api/messages/receive", "GET", null, showMessage);
+};
 
 var stopTimer = function() {
 	window.clearInterval(timer);
@@ -540,6 +552,13 @@ $(document).ready(function () {
 		$(".student-screen").show();
 
 		startTimer();
+	});
+
+	$(".student-screen").on('click', function() {
+		if (pending.length === 0) {
+			lastId = 0;
+			receiveMessage();
+		}
 	});
 
 	$("#btnConfig").on('click', function() {
