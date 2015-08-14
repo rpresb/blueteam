@@ -88,7 +88,7 @@ var presets = [
 	{
 
 		type: "book",
-		values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Lobo Mal", icon: "lobo.png" },{ name: "Cozinhando", icon: "brigadeiro.png" } ]
+		values: [ { name: "Os três porquinhos", icon: "porquinho.png" }, { name: "Ciências", icon: "ciencias.svg" },{ name: "Cozinhando", icon: "brigadeiro.svg" } ]
 	},
 	{
 		type: "color",
