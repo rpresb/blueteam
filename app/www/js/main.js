@@ -159,7 +159,7 @@ var bookCollection = {
 		id: 0,
 		name: "Porquinho",
 		text: "Era uma vez, três porquinhos chamados: Cícero, Heitor e Prático.",
-		color: "",
+		color: "#E29D9A",
 		image: "porquinho.svg",
 		vibrate: "three",
 		sound: ["happystarting.m4a","oink1.m4a"]
@@ -297,19 +297,19 @@ var bookCollection = {
 			lastId = data.id;
 
 			// $(".student-screen").html("");
-			
 			pending = [];
+
+			console.log(data.events);
 
 			data.events.forEach(function (e) {
 				switch (e.type) {
 					case "image":
-					console.log($(".student-screen > .student-img"));
 					$(".student-screen > .student-img").css("background-image", "url('img/" + e.value + "')");
 					//$(".student-screen").css("background-color", "transparent");
 					break;
 					case "color":
-					$(".student-screen").html("");
-					$(".student-screen").css("background-color", e.value);
+
+						$(".student-screen").css("background-color", e.value);
 					break;
 
 					case "vibrate":
@@ -565,6 +565,8 @@ var sendCardEvents = function(book, cardId) {
 		events.push(vibrate);
 	}
 
+
+
 	if (card.image !== "") {
 		var image = { type: "image", value: card.image };
 
@@ -576,7 +578,7 @@ var sendCardEvents = function(book, cardId) {
 
 		events.push(sound);
 	}
-
+	
 	doEventPost(events);
 };
 
@@ -599,7 +601,7 @@ function hideConfig()
 function goHome()
 {
 	$(".control-panel, .teacher-screen, .student-screen").hide();
-	$(".chose-screen").show();
+	$(".chose-screen, #btnConfig").show();
 	$("#btn-voltar").hide();
 }
 

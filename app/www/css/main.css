@@ -47,13 +47,14 @@ body {
 
 #btn-voltar
 {
-	/*display: none;*/
+	display: none;
 	float: left;
 	background: url(../img/back.svg) no-repeat center center;
 	background-size: contain;
 	text-indent: -999px;
-	display: block;
-	height: 100%;
+	/*display: block;*/
+	height: 60%;
+	margin-top: 10px;
 	width: 30px;
 }
 
@@ -72,8 +73,7 @@ body {
 
 	padding: 5%;
 
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
+   	overflow: hidden;
 }
 
 .student-screen > .student-img
@@ -82,11 +82,9 @@ body {
 	height:100%;
 	background-repeat: no-repeat;
 	background-size: contain;
+	background-position: center;
 
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    top: 60px;
+
 }
 
 .teacher-screen
