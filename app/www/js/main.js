@@ -130,7 +130,7 @@ var bookCollection = {
 	},
 	{
 		id: 3,
-		name: "Madeira",
+		name: "Tijolo",
 		text: "O porquinho Heitor decidiu construir sua casa de madeira.",
 		image: "madeira.png",
 		vibrate: "hammer",
@@ -149,7 +149,7 @@ var bookCollection = {
 		name: "Lobo",
 		text: "Uma noite, veio um lobo, bateu na casa de palha e queria entrar.",
 		image: "lobo.png",
-		vibrate: "continuous",
+		vibrate: "continuous ",
 		sound: ["wolf1.m4a","knock1.m4a"]
 	},
 	{
@@ -157,39 +157,39 @@ var bookCollection = {
 		name: "Vento",
 		text: "O porquinho apavorado não abriu a porta. Então o lobo estufou o peito, soprou forte e a casa de palha voou pelos ares.",
 		image: "vento.png",
-		vibrate: "continuous",
+		vibrate: "Coração",
 		sound: ["blowing1.m4a"]
 	},
 	{
 		id: 7,
-		name: "Lobo",
+		name: "Porta Fechada",
 		text: "Entao, o porquinho correu para a casa de madeira. O lobo chegou e bateu mas ninguém abriu a porta.",
 		image: "lobo.png",
-		vibrate: "continuous",
+		vibrate: "Coração",
 		sound: ["wolf2.m4a","knock2.m4a"]
 	},
 	{
 		id: 8,
-		name: "Vento",
+		name: "Porta Fechada",
 		text: "Então o lobo estufou o peito, soprou forte e a casa de madeira voou pelos ares.",
 		image: "vento.png",
-		vibrate: "continuous",
+		vibrate: "Coração",
 		sound: ["blowing2.m4a"]
 	},
 	{
 		id: 9,
-		name: "Porquinho",
+		name: "Porta Fechada",
 		text: "Os porquinhos correram para a casa de tijolos.",
 		image: "porquinho.png",
-		vibrate: "three",
+		vibrate: "Coração",
 		sound: ["oink3.m4a"]
 	},
 	{
 		id: 10,
-		name: "The end",
+		name: "Porta Fechada",
 		text: "Como o proquinho Prático era esperto, deixou um caldeirão perto da porta. O lobo correu e caiu dentro do caldeirão com água fervendo e fugiu da casa. E assim, os três porquinhos viveram felizes na casa de tijolos.",
 		image: "casa.png",
-		vibrate: "three",
+		vibrate: "Coração",
 		sound: ["oink2.m4a"]
 	},
 
@@ -246,8 +246,13 @@ var showMessage = function(data) {
 
 		data.events.forEach(function (e) {
 			switch (e.type) {
+				case "image":
+					$(".student-screen").html("<img src='img/" + e.value + "' />");
+					$(".student-screen").css("background-color", "transparent");
+					break;
 				case "color":
-					$("body").css("background-color", e.value);
+					$(".student-screen").html("");
+					$(".student-screen").css("background-color", e.value);
 					break;
 				case "vibrate":
 					vibrateStack = e.value;
@@ -383,20 +388,21 @@ var showBook = function(bookName) {
 	$(".control-panel").hide();
 	$(".teacher-screen").show();
 
-	loadCards(bookCollection[bookName]);
+	loadCards(bookName);
 }
 
-var loadCards = function(cards) {
+var loadCards = function(bookName) {
+	var cards = bookCollection[bookName];
 	var html = "";
 
 	cards.forEach(function (c) {
 
 		html += "<div class='group'><p>" + c.text + "</p>";
 		if (c.image == "") {
-			html += "<a class='event color-button' data-id=" + c.id + " style='background-color:" + c.color + "'></a>";
+			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-color:" + c.color + "'></a>";
 		}
 		else {
-			html += "<a class='event color-button' data-id=" + c.id + " style='background-image: url(img/" + c.image + ")'></a>";
+			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-image: url(img/" + c.image + ")'></a>";
 		}
 
 		html += "<div class='clear'></div></div>";
@@ -407,8 +413,8 @@ var loadCards = function(cards) {
 
 	$(".event").on('click', function(e) {
 		var id = $(e.target).data('id');
-		var event = cards[id];
-		sendEvent(event);
+		var book = $(e.target).data('book');
+		sendCardEvents(book, id);
 	});
 
 	// $(".event").on('click', function(e) {
@@ -436,11 +442,9 @@ var loadCards = function(cards) {
 
 }
 
-var sendEvent = function(event) {
+var sendEvent = function() {
 	var selectedObjs = $(".selected");
 	//console.log(event);
-
-	var payload = { id: (new Date()).getTime(), events: null };
 
 	var events = [];
 
@@ -480,7 +484,42 @@ var sendEvent = function(event) {
 		events.push(e);
 	};
 
-	payload.events = events;
+	doEventPost(events);
+};
+
+var sendCardEvents = function(book, cardId) {
+	var card = bookCollection[book].filter(function (c) {
+		return c.id === cardId;
+	})[0];
+
+	console.log(card);
+	var events = [];
+
+	if (card.vibrate !== "") {
+		var vibrate = { type: "vibrate" };
+
+		var pattern = vibrationTypes.filter(function (p) {
+			return p.type === card.vibrate;
+		});
+
+		if (pattern.length > 0) {
+			vibrate.value = pattern[0].pattern;
+		}
+
+		events.push(vibrate);
+	}
+
+	if (card.image !== "") {
+		var image = { type: "image", value: card.image };
+
+		events.push(image);
+	}
+
+	doEventPost(events);
+};
+
+var doEventPost = function(events) {
+	var payload = { id: (new Date()).getTime(), events: events };
 
 	doAjax(server + "/api/messages/send", "POST", JSON.stringify(payload), function(data) {
 		$(".button").after("<div class='message'>Enviado com sucesso.</div>");
@@ -488,7 +527,7 @@ var sendEvent = function(event) {
 			$("div.message").remove();
 		}, 2000);
 	});
-}
+};
 
 $(document).ready(function () {
 	logger.turnOffDebug();
