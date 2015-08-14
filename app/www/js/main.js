@@ -1,11 +1,12 @@
 var userData = {};
 var ua = navigator.userAgent;
 var logger = new Logger("main.js");
-var server = "http://10.24.2.145:3000";
-//var server = "http://192.168.1.35:3000";
+//var server = "http://10.24.2.145:3000";
+var server = "http://192.168.1.35:3000";
 var lastId = 0;
 var vibrateStack = null;
 var timer = null;
+var soundStack = null;
 
 var device = {
 	Android: function() {
@@ -244,6 +245,8 @@ var showMessage = function(data) {
 	if (lastId != data.id) {
 		lastId = data.id;
 
+		$(".student-screen").html("");
+
 		data.events.forEach(function (e) {
 			switch (e.type) {
 				case "image":
@@ -259,7 +262,8 @@ var showMessage = function(data) {
 					vibrate();
 					break;
 				case "sound":
-					playSound(e.value);
+					soundStack = e.value;
+					playSound();
 
 					break;
 			}
@@ -267,14 +271,21 @@ var showMessage = function(data) {
 	}
 }
 
-var playSound = function(fileName) {
+var playSound = function() {
 	var audioElement = document.createElement('audio');
-    audioElement.setAttribute('src', 'aud/' + fileName);
+    audioElement.setAttribute('src', 'aud/' + soundStack.pop());
     audioElement.setAttribute('autoplay', 'autoplay');
 
     audioElement.addEventListener("load", function() {
         audioElement.play();
     }, true);
+
+    audioElement.addEventListener("ended", function(p) {
+	    if (soundStack.length > 0) {
+	    	setTimeout('playSound()', 10);
+	    }
+    });
+
 }
 
 var vibrate = function() {
@@ -379,7 +390,6 @@ var loadPreset = function(preset) {
 	});
 
 	$(".button").on('click', function(e) {
-		console.log(e);
 		sendEvent();
 	});
 }
@@ -389,6 +399,8 @@ var showBook = function(bookName) {
 	$(".teacher-screen").show();
 
 	loadCards(bookName);
+
+	doEventPost([]);
 }
 
 var loadCards = function(bookName) {
@@ -398,7 +410,7 @@ var loadCards = function(bookName) {
 	cards.forEach(function (c) {
 
 		html += "<div class='group'><p>" + c.text + "</p>";
-		if (c.image == "") {
+		if (c.image === "") {
 			html += "<a class='event color-button' data-id=" + c.id + " data-book='" + bookName + "' style='background-color:" + c.color + "'></a>";
 		}
 		else {
@@ -444,7 +456,6 @@ var loadCards = function(bookName) {
 
 var sendEvent = function() {
 	var selectedObjs = $(".selected");
-	//console.log(event);
 
 	var events = [];
 
@@ -477,7 +488,7 @@ var sendEvent = function() {
 			});
 
 			if (sound.length > 0) {
-				e.value = sound[0].file;
+				e.value = [ sound[0].file ];
 			}
 		}
 
@@ -492,7 +503,6 @@ var sendCardEvents = function(book, cardId) {
 		return c.id === cardId;
 	})[0];
 
-	console.log(card);
 	var events = [];
 
 	if (card.vibrate !== "") {
@@ -513,6 +523,12 @@ var sendCardEvents = function(book, cardId) {
 		var image = { type: "image", value: card.image };
 
 		events.push(image);
+	}
+
+	if (card.sound !== "") {
+		var sound = { type: "sound", value: card.sound };
+
+		events.push(sound);
 	}
 
 	doEventPost(events);
