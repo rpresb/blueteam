@@ -2,8 +2,8 @@ var userData = {};
 var ua = navigator.userAgent;
 var logger = new Logger("main.js");
 
-var server = "http://localhost:3000";
-// var server = "http://10.24.2.145:3000";
+//var server = "http://localhost:3000";
+var server = "http://172.16.10.10:3000";
 //var server = "http://192.168.1.35:3000";
 
 var lastId = 0;
