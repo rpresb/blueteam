@@ -8,6 +8,7 @@ AHMISA - Associação Educacional para Múltipla Deficiência
 Create new tools to engage and stimulate children with multiple disabilities from 2 to 10 years old.
 
 #Software Description (alpha version)
+- App name: "Sentir"
 - Mobile/Web app.
 - Based on NodeJS and Phonegap.
 - Allows teacher/adult to read three little pigs story for kids.
